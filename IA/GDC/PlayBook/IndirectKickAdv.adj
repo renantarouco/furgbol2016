@@ -1,0 +1,29 @@
+JOGADA IndirectKickAdv
+
+APLICAVEL indirect_kick_adv
+FINALIZA abortada !indirect_kick_adv
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    DefesaArea
+    fim
+    
+PAPEL1
+    DefesaCirculo b 500.0
+    fim
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    Marcar mais_proximo_nosso_gol_sem_bola passe
+    fim
+
+PAPEL4
+    Marcar mais_proximo_nosso_gol_sem_bola passe
+    fim

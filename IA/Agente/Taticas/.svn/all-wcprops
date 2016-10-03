@@ -1,0 +1,263 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas
+END
+DefendeGol.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefendeGol.h
+END
+Limpa.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Limpa.cpp
+END
+RecebePasseCurto.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/RecebePasseCurto.h
+END
+Tatica.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Tatica.cpp
+END
+MarcarSaidaBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/MarcarSaidaBola.cpp
+END
+RoubaBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/RoubaBola.cpp
+END
+ReceberPasse.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/ReceberPasse.h
+END
+PasseLongo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PasseLongo.cpp
+END
+Marcar.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Marcar.h
+END
+Chute.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Chute.h
+END
+DefesaCirculo.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefesaCirculo.h
+END
+AndarReto.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/AndarReto.cpp
+END
+PosicionaChute.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PosicionaChute.h
+END
+DefesaArea.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefesaArea.h
+END
+PosicionaSegmento.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PosicionaSegmento.cpp
+END
+Gira.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Gira.h
+END
+Halt.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Halt.cpp
+END
+Posiciona.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Posiciona.h
+END
+PosicionaDefesa.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PosicionaDefesa.cpp
+END
+DefendeGol.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefendeGol.cpp
+END
+DefendePenalty.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefendePenalty.h
+END
+PasseCurto.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PasseCurto.h
+END
+RecebePasseCurto.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/RecebePasseCurto.cpp
+END
+PosicionaPerdaBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PosicionaPerdaBola.h
+END
+ReceberPasse.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/ReceberPasse.cpp
+END
+Marcar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Marcar.cpp
+END
+Limpa.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Limpa.h
+END
+Chute.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Chute.cpp
+END
+DefesaCirculo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefesaCirculo.cpp
+END
+MarcarSaidaBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/MarcarSaidaBola.h
+END
+Tatica.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Tatica.h
+END
+RoubaBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/RoubaBola.h
+END
+PosicionaChute.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PosicionaChute.cpp
+END
+PasseLongo.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PasseLongo.h
+END
+DefesaArea.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefesaArea.cpp
+END
+Gira.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Gira.cpp
+END
+Posiciona.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Posiciona.cpp
+END
+AndarReto.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/AndarReto.h
+END
+DefendePenalty.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/DefendePenalty.cpp
+END
+PasseCurto.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PasseCurto.cpp
+END
+PosicionaSegmento.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PosicionaSegmento.h
+END
+Halt.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/Halt.h
+END
+PosicionaPerdaBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Taticas/PosicionaPerdaBola.cpp
+END

@@ -1,0 +1,29 @@
+JOGADA Ataque
+
+APLICAVEL jogo_normal posse_bola !bola_area_eq
+FINALIZA abortada bola_area_eq | abortada !jogo_normal | abortada !posse_bola
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    Chute
+    fim    
+
+PAPEL1
+    DefesaArea
+    fim
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    DefesaArea
+    fim
+    
+PAPEL4
+    DefesaArea
+    fim

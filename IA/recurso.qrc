@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>logotipo-furgbol.jpg</file>
+    </qresource>
+</RCC>

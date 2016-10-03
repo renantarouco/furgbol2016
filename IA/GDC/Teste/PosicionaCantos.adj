@@ -1,0 +1,25 @@
+JOGADA Posiciona
+
+APLICAVEL teste
+FINALIZA abortada !teste
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL1
+    Posiciona (3025 2025)
+    fim    
+
+PAPEL2
+    Posiciona (-3025 2025)
+    fim
+
+PAPEL3
+    Posiciona (-3025 -2025)
+    fim
+
+PAPEL4
+    Posiciona (3025 -2025)
+    fim

@@ -1,0 +1,9 @@
+#ifndef UTILS_H
+#define UTILS_H
+
+#include <types.h>
+
+float squaredDistance(const Mat_<float> &a,const  Mat_<float> &b);
+
+
+#endif // UTILS_H

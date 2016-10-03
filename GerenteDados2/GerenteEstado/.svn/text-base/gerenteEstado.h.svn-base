@@ -1,0 +1,40 @@
+#ifndef GERENTEESTADO_H
+#define GERENTEESTADO_H
+
+#include <iostream>
+#include <QThread>
+#include <barramento.h>
+#include <comunicacao_referee.h>
+#include "utils.h"
+
+class GerenteEstado : public QThread
+{
+    Q_OBJECT
+public:
+   GerenteEstado();
+   GerenteEstado(Barramento* barramento);
+
+   void kill();
+
+   void setPorta(int porta);
+
+   void setBarramento(Barramento* _barramento);
+
+   void setCorEquipe(const CorEquipe& _corEquipe);
+
+protected:
+   void run();
+
+private:
+    bool executando;
+    Barramento *barramento;
+    ComunicacaoReferee comunicacaoReferee;
+    SSL_Referee pacote;
+
+//    Ponto posBolaNormalStart;
+    string estadoAtual, estadoAnt;
+    int idGoleiroEq, idGoleiroAdv;
+    CorEquipe corEquipe;
+};
+
+#endif // GERENTEESTADO_H

@@ -1,0 +1,56 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2011-06-23T18:01:48
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+TARGET = GerenteDados
+TEMPLATE = app
+
+INCLUDEPATH +=  ../ProtoLIB
+LIBS += -L../ProtoLIB -lproto
+
+INCLUDEPATH += Comunicacao \
+               GerenteVisao \
+               GerenteEstado \
+               Interface \
+               Timer
+
+SOURCES +=  main.cpp\
+            #Interface/mainwindow.cpp \
+            gerenteDados.cpp \
+            Comunicacao/netraw.cpp \
+            GerenteVisao/robo.cpp \
+            GerenteVisao/gerenteVisao.cpp \
+            GerenteVisao/bola.cpp \
+            GerenteEstado/gerenteEstado.cpp \
+            Comunicacao/barramento.cpp \
+            Comunicacao/servidorGerenteDados.cpp \
+            Timer/timer.cpp \
+            utils.cpp \
+            Comunicacao/comunicacao_visao.cpp \
+            Comunicacao/comunicacao_referee.cpp
+
+HEADERS  += types.h \
+            gerenteDados.h \
+            #Interface/mainwindow.h \
+            Comunicacao/netraw.h \
+            GerenteVisao/robo.h \
+            GerenteVisao/gerenteVisao.h \
+            GerenteVisao/bola.h \
+            GerenteEstado/gerenteEstado.h \
+            Comunicacao/barramento.h \
+            Comunicacao/servidorGerenteDados.h \
+            Timer/timer.h \
+            utils.h \
+            Comunicacao/comunicacao_visao.h \
+            Comunicacao/comunicacao_referee.h
+
+QMAKE_CFLAGS += -O3
+QMAKE_CXXFLAGS += -O3 -frounding-math
+
+#FORMS    += Interface/mainwindow.ui
+
+LIBS    += -lprotobuf  `pkg-config --libs --cflags opencv`  -lCGAL

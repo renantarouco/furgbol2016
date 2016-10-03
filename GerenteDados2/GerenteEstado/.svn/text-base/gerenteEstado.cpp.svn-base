@@ -1,0 +1,213 @@
+#include "gerenteEstado.h"
+
+GerenteEstado::GerenteEstado(){
+    estadoAtual="halt";
+    estadoAnt="";
+}
+
+GerenteEstado::GerenteEstado(Barramento *_barramento){
+    barramento = _barramento;
+}
+
+void GerenteEstado::setPorta(int porta){
+    comunicacaoReferee.setPorta(porta);
+}
+
+void GerenteEstado::setBarramento(Barramento* _barramento){
+    barramento = _barramento;
+}
+
+void GerenteEstado::setCorEquipe(const CorEquipe &_corEquipe)
+{
+    corEquipe = _corEquipe;
+}
+
+void GerenteEstado::kill(){
+    executando = false;
+    wait();
+
+    comunicacaoReferee.close();
+}
+
+void GerenteEstado::run(){
+    executando = true;
+
+    /// abrindo a comunicacao com o referee indicando que é bloqueante a comunicacao
+    if(comunicacaoReferee.open(true)){
+
+        /// enquanto o sistema estiver executando e tivermos recebendo pacote do referee iremos executar a thread
+        while(comunicacaoReferee.receive(pacote) && executando){
+
+            /// setando o pacote do referee no barramento
+            barramento->setPacoteReferee(pacote);
+
+            //            /// setando o id do goleiro da equipe e do adversário
+            //            if(corEquipe == PacoteControle::AMARELO){
+            //                idGoleiroEq = pacote.yellow().goalie();
+            //                idGoleiroAdv = pacote.blue().goalie();
+            //            }else{
+            //                idGoleiroEq = pacote.blue().goalie();
+            //                idGoleiroAdv = pacote.yellow().goalie();
+            //            }
+
+            //            /// Verificando qual o estado atual da partida
+            //            switch(pacote.command()){
+            //            case SSL_Referee::FORCE_START:
+            //                estadoAtual = "jogo_normal";
+            //                break;
+
+            //            case SSL_Referee::STOP:
+            //                estadoAtual = "stop";
+            //                break;
+
+            //            case SSL_Referee::PREPARE_KICKOFF_BLUE:
+
+            //                if(corEquipe == PacoteControle::AZUL){ /// verificando qual time nos somos
+            //                    estadoAtual = "kickoff_eq";
+            //                }else{
+
+            //                    /// se o estado anterior for jogo_normal é por que o normal start já foi executado, caso contrário o normal start não foi executado
+            //                    if(estadoAtual != "jogo_normal"){
+            //                        estadoAtual = "kickoff_adv";
+            //                    }
+            //                }
+            //                break;
+
+            //            case SSL_Referee::PREPARE_KICKOFF_YELLOW:
+
+            //                if(corEquipe == PacoteControle::AMARELO){ /// verificando qual time nos somos
+            //                    estadoAtual = "kickoff_eq";
+            //                }else{
+
+            //                    /// se o estado anterior for jogo_normal é por que o normal start já foi executado, caso contrário o normal start não foi executado
+            //                    if(estadoAtual != "jogo_normal"){
+            //                        estadoAtual = "kickoff_adv";
+            //                    }
+            //                }
+            //                break;
+
+            //            case SSL_Referee::PREPARE_PENALTY_BLUE:
+
+            //                if(corEquipe == PacoteControle::AZUL){ /// verificando qual time nos somos
+            //                    estadoAtual = "penalty_eq";
+            //                }else{
+            //                    estadoAtual = "penalty_adv";
+            //                }
+            //                break;
+
+            //            case SSL_Referee::PREPARE_PENALTY_YELLOW:
+
+            //                if(corEquipe == PacoteControle::AMARELO){ /// verificando qual time nos somos
+            //                    estadoAtual = "penalty_eq";
+            //                }else{
+            //                    estadoAtual = "penalty_adv";
+            //                }
+            //                break;
+
+            //            case SSL_Referee::DIRECT_FREE_BLUE:
+            //                if(corEquipe == PacoteControle::AZUL){ /// verificando qual time nos somos
+            //                    estadoAtual = "direct_kick_eq";
+            //                }else{
+            //                    /// se o estado anterior for jogo_normal é por que o normal start já foi executado, caso contrário o normal start não foi executado
+            //                    if(estadoAtual != "jogo_normal"){
+            //                        estadoAtual = "direct_kick_adv";
+            //                    }
+            //                }
+
+            //                break;
+
+            //            case SSL_Referee::DIRECT_FREE_YELLOW:
+            //                if(corEquipe == PacoteControle::AMARELO){ /// verificando qual time nos somos
+            //                    estadoAtual = "direct_kick_eq";
+            //                }else{
+
+            //                    /// se o estado anterior for jogo_normal é por que o normal start já foi executado, caso contrário o normal start não foi executado
+            //                    if(estadoAtual != "jogo_normal"){
+            //                        estadoAtual = "direct_kick_adv";
+            //                    }
+            //                }
+
+            //                break;
+
+            //            case SSL_Referee::INDIRECT_FREE_BLUE:
+
+            //                if(corEquipe == PacoteControle::AZUL){ /// verificando qual time nos somos
+            //                    estadoAtual = "indirect_kick_eq";
+            //                }else{
+
+            //                    /// se o estado anterior for jogo_normal é por que o normal start já foi executado, caso contrário o normal start não foi executado
+            //                    if(estadoAtual != "jogo_normal"){
+            //                        estadoAtual = "indirect_kick_adv";
+            //                    }
+            //                }
+
+            //                break;
+
+            //            case SSL_Referee::INDIRECT_FREE_YELLOW:
+
+            //                if(corEquipe == PacoteControle::AMARELO){ /// verificando qual time nos somos
+            //                    estadoAtual = "indirect_kick_eq";
+            //                }else{
+
+            //                    /// se o estado anterior for jogo_normal é por que o normal start já foi executado, caso contrário o normal start não foi executado
+            //                    if(estadoAtual != "jogo_normal"){
+            //                        estadoAtual = "indirect_kick_adv";
+            //                    }
+            //                }
+
+            //                break;
+
+            //            case SSL_Referee::NORMAL_START:
+
+            //                /// se o estado anterior for jogo_normal é por que o normal start já foi executado, caso contrário o normal start não foi executado
+            //                if(estadoAtual != "jogo_normal"){
+            //                    estadoAtual = "ready";
+            //                }
+
+            //                break; /// dando return para que não seja setado que o estado anterior não é o normal start
+
+            //            default:
+            //                estadoAtual="halt";
+            //                break;
+            //            }
+
+            //            /// verificando se a bola se moveu
+            //            if(estadoAtual=="ready" || estadoAtual =="indirect_kick_adv" || estadoAtual =="direct_kick_adv"){
+
+            //                /// Verificando se o estado anterior é o normal start se for iremos verificar se a bola andou mais do que o limite
+            //                if(posBolaNormalStart != INFINITY_POINT){
+            //                    double dist = squared_distance(barramento->getPosicaoBola(), posBolaNormalStart);
+
+            //                    if(dist > 50.0*50.0){ /// verificando se a bola andou mais do que 5 cm
+            //                        fatos["jogo_normal"] = true;
+            //                        estadoAtual = "jogo_normal";
+            //                        posBolaNormalStart = Ponto(500000.0, 500000.0);
+            //                    }
+
+            //                    /// caso não seja o normal start iremos pegar a posicao da bola no momento, para posteriormente verificar se ela andou
+            //                    /// o bastante para classificar o estado como jogo_normal
+            //                }else{
+            //                    posBolaNormalStart = bola.getPosicao();
+            //                }
+            //            }
+
+            //            /// Setando todos os fatos como false a não ser o estado atual
+            //            map<string, bool>::iterator it;
+            //            for(it = fatos.begin(); it != fatos.end(); it++){
+            //                it->second = false;
+            //            }
+            //            fatos[estadoAtual] = true;
+
+            //            /// caso o estado atual seja o ready não podemos descartar o estado anterior, pois servirá para definir a jogada a ser executada
+            //            if(estadoAtual == "ready" && estadoAnt != ""){
+            //                fatos[estadoAnt] = true;
+            //            }else{
+            //                if(estadoAtual == "ready" && estadoAnt=="")
+            //                    estadoAtual = "jogo_normal", fatos["jogo_normal"]=true, fatos["ready"]=false;
+
+            //                estadoAnt = estadoAtual; /// setando o estado anterior como atual
+            //            }
+
+        }
+    }
+}

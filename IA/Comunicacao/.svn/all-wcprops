@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao
+END
+CommunicationBUS.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/CommunicationBUS.cpp
+END
+Serial.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/Serial.cpp
+END
+ProtocoloSerial.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/ProtocoloSerial.cpp
+END
+Comunicador.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/Comunicador.cpp
+END
+CommunicationBUS.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/CommunicationBUS.h
+END
+Serial.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/Serial.h
+END
+ProtocoloSerial.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/ProtocoloSerial.h
+END
+Comunicador.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/furgbol/!svn/ver/579/trunk/IA/Comunicacao/Comunicador.h
+END

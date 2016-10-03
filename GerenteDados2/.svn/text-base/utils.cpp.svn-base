@@ -1,0 +1,45 @@
+#include "utils.h"
+
+#include <iostream>
+
+float squaredDistance(const Mat_<float> &a, const Mat_<float> &b){
+
+    Mat_<float> aux;
+    float sum;
+
+    aux = a-b;
+
+    sum = aux.dot(aux);
+
+
+    return sum;
+
+}
+
+#ifdef TEST_UTILS
+
+int main(){
+
+    Point3f a(0,0,0),b(1,1,1);
+
+//    a[0][0] = 0;
+//    a[1][0] = 0;
+//    a[2][0] = 0;
+
+
+//    b[0][0] = 1;
+//    b[1][0] = 1;
+//    b[2][0] = 1;
+
+    Vec3f c(1,2,2);
+
+    Matx31f d = a;
+
+//    cout << "a = " << a << endl;
+//    cout << "c = " << c << endl;
+//    cout << "d = " << d << endl;
+
+//    cout << squaredDistance(Mat_<float>(a),Mat_<float>(b));
+}
+
+#endif

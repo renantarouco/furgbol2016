@@ -1,0 +1,29 @@
+JOGADA Halt
+
+APLICAVEL halt
+FINALIZA completada !halt
+
+TIMEOUT 0
+
+GOLEIRO
+    Halt
+    
+PAPEL0
+    Halt
+    fim 
+
+PAPEL1
+    Halt
+    fim    
+
+PAPEL2
+    Halt   
+    fim
+
+PAPEL3
+    Halt
+    fim
+
+PAPEL4
+    Halt
+    fim

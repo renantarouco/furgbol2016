@@ -1,0 +1,29 @@
+JOGADA AndarReto
+
+APLICAVEL teste
+FINALIZA abortada !teste
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+    
+PAPEL0
+    AndarReto (-2000 0) (2000 0)
+    fim 
+    
+PAPEL1
+    AndarReto (-2000 -300) (2000 -300)
+    fim    
+
+PAPEL2
+    AndarReto (-2000 300) (2000 300)
+    fim
+
+PAPEL3
+    AndarReto (-2000 600) (2000 600)
+    fim
+
+PAPEL4
+    AndarReto (-2000 -600) (2000 -600)
+    fim

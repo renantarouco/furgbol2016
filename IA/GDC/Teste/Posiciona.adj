@@ -1,0 +1,25 @@
+JOGADA Posiciona
+
+APLICAVEL teste
+FINALIZA abortada !teste
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL1
+    Posiciona (-500 -500)
+    fim    
+
+PAPEL2
+    Posiciona (500 500)
+    fim
+
+PAPEL3
+    Posiciona (1000 1000)
+    fim
+
+PAPEL4
+    Posiciona (-1000 -1000)
+    fim

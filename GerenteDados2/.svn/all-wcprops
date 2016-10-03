@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados
+END
+gerenteDados.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/gerenteDados.h
+END
+types.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/types.h
+END
+Pacotes.txt
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/Pacotes.txt
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/Makefile
+END
+GerenteDados.pro.user
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/GerenteDados.pro.user
+END
+utils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/utils.cpp
+END
+GerenteDados.pro
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/GerenteDados.pro
+END
+gerenteDados.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/gerenteDados.cpp
+END
+main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/main.cpp
+END
+utils.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/furgbol/!svn/ver/579/trunk/GerenteDados/utils.h
+END

@@ -1,0 +1,18 @@
+#include "filtroVisao.h"
+
+
+FiltroVisao::FiltroVisao()
+{
+}
+
+vector <Robo> FiltroVisao::updateRobosEquipe(vector <Robo> robosSSL){
+
+}
+
+vector <Robo> FiltroVisao::updateRobosAdversarios(vector <Robo> robosAdvSSL){
+
+}
+
+vector <Robo> FiltroVisao::updateBola(vector <Bola> bola){
+
+}

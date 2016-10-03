@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o
+END
+Config.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/Config.cpp
+END
+ConfigComunicacao.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigComunicacao.cpp
+END
+ConfigAvaliador.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigAvaliador.cpp
+END
+ConfigMontador.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigMontador.cpp
+END
+Config.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/Config.h
+END
+ConfigTeste.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigTeste.cpp
+END
+ConfigComunicacao.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigComunicacao.h
+END
+ConfigAvaliador.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigAvaliador.h
+END
+ConfigMontador.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigMontador.h
+END
+ConfigTeste.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/furgbol/!svn/ver/579/trunk/IA/Sistema/Configura%C3%A7%C3%A3o/ConfigTeste.h
+END

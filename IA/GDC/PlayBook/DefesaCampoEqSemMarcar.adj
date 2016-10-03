@@ -1,0 +1,29 @@
+JOGADA DefesaCampoEqSemMarcar
+
+APLICAVEL jogo_normal bola_campo_eq !posse_bola !bola_area_eq !tem_robo_marcar
+FINALIZA abortada posse_bola | abortada bola_area_eq | abortada !jogo_normal | abortada !bola_campo_eq
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    Limpa
+    fim  
+    
+PAPEL1
+    DefesaArea
+    fim  
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    DefesaArea
+    fim
+
+PAPEL4
+    DefesaArea
+    fim

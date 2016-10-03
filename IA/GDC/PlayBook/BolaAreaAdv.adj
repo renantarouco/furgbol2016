@@ -1,0 +1,29 @@
+JOGADA BolaAreaAdv
+
+APLICAVEL bola_area_adv jogo_normal
+FINALIZA completada !bola_area_adv | abortada !jogo_normal
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    MarcarAreaAdv
+    fim    
+
+PAPEL1
+    DefesaArea
+    fim
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    DefesaArea
+    fim
+    
+PAPEL4
+	DefesaArea
+    fim

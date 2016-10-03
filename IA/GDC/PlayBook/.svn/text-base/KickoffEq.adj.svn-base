@@ -1,0 +1,29 @@
+JOGADA KickoffEq
+
+APLICAVEL kickoff_eq !ready
+FINALIZA abortada ready | abortada !kickoff_eq
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    Posiciona (-300 0)
+    fim  
+    
+PAPEL1
+    DefesaArea
+    fim  
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    Posiciona (-300 1300)
+    fim
+
+PAPEL4
+    Posiciona (-300 -1300)
+    fim

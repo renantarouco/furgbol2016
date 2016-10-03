@@ -1,0 +1,29 @@
+JOGADA Stop
+
+APLICAVEL stop !bola_perto_area_eq !bola_perto_linha_fundo_eq
+FINALIZA completada !stop | completada bola_perto_area_eq | completada bola_perto_linha_fundo_eq
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    DefesaCirculo b 500.0
+    fim
+    
+PAPEL1
+    DefesaCirculo b 500.0
+    fim
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    DefesaArea
+    fim
+
+PAPEL4
+    DefesaCirculo b 500.0
+    fim

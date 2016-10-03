@@ -1,0 +1,92 @@
+#include <gerenteDados.h>
+
+GerenteDados::GerenteDados()
+{
+    barramento = new Barramento();
+    gerenteEstado.setBarramento(barramento);
+    gerenteVisao.setBarramento(barramento);
+    idGoleiro = 0;
+}
+
+bool GerenteDados::iniciaGerenteVisao(){
+    cout << "Iniciando Gerente de Visao" << endl;
+
+    gerenteVisao.start();
+    return true;
+}
+
+bool GerenteDados::iniciaGerenteEstado(){
+    cout << "Iniciando Gerente de Estados" << endl;
+
+    gerenteEstado.start();
+    return true;
+}
+
+//cancela as threads
+bool GerenteDados::terminaGerenteVisao(){
+    gerenteVisao.kill();
+    return true;
+}
+
+bool GerenteDados::terminaGerenteEstado(){
+    gerenteEstado.kill();
+    return true;
+}
+
+void GerenteDados::setDadosControle(CorEquipe _corEquipe, LadoCampo _ladoCampo, int _idGoleiro){
+    idGoleiro = _idGoleiro;
+    corEquipe = _corEquipe;
+    gerenteVisao.setLadoCampo(_ladoCampo);
+
+    PacoteControle controle;
+
+    /// setando o lado do campo
+    if(_ladoCampo == DIREITO){
+        controle.set_ladocampo(::PacoteControle_LadoCampo_DIREITO);
+    }else{
+        controle.set_ladocampo(::PacoteControle_LadoCampo_ESQUERDO);
+    }
+
+    /// setando a cor da equipe
+    if(corEquipe == Amarelo){
+        controle.set_corequipe(::PacoteControle_CorEquipe_AMARELO);
+    }else{
+        controle.set_corequipe(::PacoteControle_CorEquipe_AZUL);
+    }
+
+    /// setando o id do goleiro
+    controle.set_idgoleiro(idGoleiro);
+
+    barramento->setPacoteControle(controle);
+}
+
+void GerenteDados::load(string pathConfig){
+    QString path(pathConfig.c_str());
+    path.append("config.ini");
+
+    QSettings settings(path, QSettings::IniFormat);
+
+    /// carregando as configuracoes gerais
+    setDadosControle((CorEquipe)settings.value("cor_equipe").toInt(),
+                     (LadoCampo)settings.value("lado_campo").toInt(),
+                     settings.value("id_goleiro").toInt());
+    gerenteVisao.setCorEquipe((CorEquipe)settings.value("cor_equipe").toInt());
+    gerenteEstado.setCorEquipe((CorEquipe)settings.value("cor_equipe").toInt());
+
+    /// carregando os dados da comunicacao com a visao e com a ia
+    settings.beginGroup("COMUNICACAO");
+    gerenteVisao.setFonteDados((GerenteVisao::FonteDados)settings.value("fonte_dados").toInt());
+    gerenteVisao.setPortaVisao(settings.value("porta_visao").toInt());
+    gerenteVisao.setIpIA(settings.value("ip_ia").toString().toStdString());
+    gerenteVisao.setPortaEnviaIA(settings.value("porta_envia_ia").toInt());
+    gerenteVisao.setTaxaEnvioIA(settings.value("taxa_envio").toInt());
+    gerenteEstado.setPorta(settings.value("porta_referee").toInt());
+    settings.endGroup();
+}
+
+void GerenteDados::wait()
+{
+    gerenteEstado.wait();
+    gerenteVisao.wait();
+}
+

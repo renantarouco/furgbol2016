@@ -1,0 +1,40 @@
+#ifndef GERENTEDADOS_H
+#define GERENTEDADOS_H
+
+#include <gerenteVisao.h>
+#include <gerenteEstado.h>
+#include <barramento.h>
+
+#include <QSettings>
+
+class GerenteDados
+{
+public:
+
+    //construtor
+    GerenteDados();
+
+    //inicia as threads
+    bool iniciaGerenteVisao();
+    bool iniciaGerenteEstado();
+
+    //cancela as threads
+    bool terminaGerenteVisao();
+    bool terminaGerenteEstado();
+
+    void load(string pathConfig="../GerenteDados/config/");
+
+    void wait();
+
+    void setDadosControle(CorEquipe _corEquipe, LadoCampo _ladoCampo, int _idGoleiro);
+
+private:
+    GerenteEstado gerenteEstado;
+    GerenteVisao gerenteVisao;
+    Barramento * barramento;
+
+    CorEquipe corEquipe;
+    int idGoleiro;
+};
+
+#endif // GERENTEDADOS_H

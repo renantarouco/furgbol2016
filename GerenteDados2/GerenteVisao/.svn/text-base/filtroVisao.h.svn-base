@@ -1,0 +1,26 @@
+#ifndef FILTROVISAO_H
+#define FILTROVISAO_H
+
+#include <types.h>
+#include <robo.h>
+#include <bola.h>
+
+using namespace std;
+
+class FiltroVisao
+{
+public:
+    FiltroVisao();
+
+    vector <Robo> updateRobosEquipe(vector <Robo> robosSSL);
+    vector <Robo> updateRobosAdversarios(vector <Robo> robosAdvSSL);
+    vector <Robo> updateBola(vector <Bola> bola);
+
+private:
+    Bola bolaAnt;
+    vector <Robo> robosAnterior;
+    vector <Robo> robosAdvAnterior;
+
+};
+
+#endif // FILTROVISAO_H

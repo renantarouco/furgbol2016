@@ -1,0 +1,29 @@
+JOGADA DefesaCampoAdv
+
+APLICAVEL jogo_normal bola_campo_adv !posse_bola tem_robo_marcar
+FINALIZA abortada posse_bola | abortada !bola_campo_adv | abortada !jogo_normal
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    Limpa
+    fim    
+    
+PAPEL1
+    DefesaArea
+    fim
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    DefesaArea
+    fim
+
+PAPEL4
+    Marcar mais_proximo_nosso_gol_sem_bola passe
+    fim

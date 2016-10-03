@@ -1,0 +1,929 @@
+#include "Montador.h"
+#include <Sistema.h>
+#include <ProtocoloSerial.h>
+#include <Geometria.h>
+
+#include<opencv/cv.h>
+
+Montador::Montador(){
+
+    vel_atual_=0.0;
+    velAngularAtual=0.0;
+    enableChute = true;
+    thetaAnterior=0.0;
+
+    inicializaModeloCinematico();
+
+    //cout << "Dentro do montador id " << id <<  "******************************"<<endl;
+}
+
+Montador::Montador(int _id){
+
+    id_ = _id;
+
+    vel_atual_=0.0;
+    velAngularAtual=0.0;
+    enableChute = true;
+    thetaAnterior=0.0;
+
+    inicializaModeloCinematico();
+
+    //cout << "Dentro do montador id " << id <<  "******************************"<<endl;
+}
+
+Montador::Montador(int _id, ConfigMontador* configMontador){
+
+    config_montador_ = configMontador;
+    id_ = _id;
+
+    vel_atual_=0.0;
+    velAngularAtual=0.0;
+    enableChute = true;
+    thetaAnterior=0.0;
+
+    /// Verificando quais as constantes que serao usadas para calcular a velocidade do robo
+    //    switch(enviarPacoteRobos){
+    //    case ConfigComunicacao::REAL:
+
+    //        if(_controleNovo){
+
+    //            /// Velocidades para os robôs reais
+    //            VEL_MAX_RODAS = 100;  //VELOCIDADE MÁXIMA DAS RODAS, EM RAD/S
+    //            VEL_MAX = 3;  //velocidade máxima do robô, em m/s
+    //            MAX_SPEED_UP = 0.05;
+    //            MAX_SPEED_DOWN = 0.5;
+    //            MAX_VEL_ANGULAR = 8;
+    //            MIN_VEL_ANGULAR = 1;
+    //            MAX_MUDANCA_VEL_ANGULAR = 0.5;
+    //            VEL_MINIMA_DESLOCAMENTO = 1;
+    //            Pgiro = 45;
+    //            ACELERACAO = 8;
+    //            DESACELERACAO = 15;
+    //            Dgiro = 1;
+
+    //        }else{
+
+    //            /// Velocidades para os robôs reais
+    //            VEL_MAX_RODAS = 100;  //VELOCIDADE MÁXIMA DAS RODAS, EM RAD/S
+    //            VEL_MAX = 3;  //velocidade máxima do robô, em m/s
+    //            MAX_SPEED_UP = 0.05;
+    //            MAX_SPEED_DOWN = 0.5;
+    //            MAX_VEL_ANGULAR = 8;
+    //            MIN_VEL_ANGULAR = 1;
+    //            MAX_MUDANCA_VEL_ANGULAR = 0.5;
+    //            VEL_MINIMA_DESLOCAMENTO = 1;
+    //            Pgiro = 35;
+    //            ACELERACAO = 5;
+    //            DESACELERACAO = 10;
+    //            Dgiro = 1;
+    //        }
+
+    //        break;
+
+    //    case ConfigComunicacao::SIMULADOR:
+
+    //        /// Velocidades para os robôs do simulador
+    //        VEL_MAX_RODAS = 10;  //VELOCIDADE MÁXIMA DAS RODAS, EM RAD/S
+    //        VEL_MAX = 2;  //velocidade máxima do robô, em m/s
+    //        MAX_SPEED_UP = 0.06;
+    //        MAX_SPEED_DOWN = 0.1;
+    //        MAX_VEL_ANGULAR = 5;
+    //        MIN_VEL_ANGULAR = 0.3;
+    //        MAX_MUDANCA_VEL_ANGULAR = 0.5;
+    //        VEL_MINIMA_DESLOCAMENTO = 0.3;
+    //        Pgiro = 10;
+    //        ACELERACAO = 0.1;
+    //        DESACELERACAO = 0.1;
+
+    //        break;
+    //    }
+
+    inicializaModeloCinematico();
+
+    //cout << "Dentro do montador id " << id <<  "******************************"<<endl;
+}
+
+void Montador::setId(int _id){
+    id_ = _id;
+}
+
+void Montador::inicializaModeloCinematico(){
+
+    M = cv::Mat_<float>(3,4);
+
+    //! Estas medidas estão em metros.
+
+    /// O raio da roda é utilizado para determinar as velocidades das rodas e o raio do robo
+    /// para se obter a velocidade angular do robo
+    float raioDaRoda = 0.0275;
+    float raio = 0.085;
+
+
+    //--------MODELO CINEMÁTICO DO ROBO-----------
+    float alpha1, alpha2;
+
+    //angulos de ataque das rodas
+    alpha1 = 45*M_PI/180;   //45°
+    alpha2 = 37*M_PI/180;   //37°
+
+    /// no nosso caso usamos uma mesma orientação com o sistema externo e interno.
+    R = cv::Mat_<float>::eye(3,3);
+
+
+    //inicializa a matriz M
+    /// Aqui é quando inicializamos a matriz M especificado utilizando os valores do robo
+    M[0][0] = -cos(alpha1);     M[0][1] = -cos(alpha2);     M[0][2] =  cos(alpha2);      M[0][3] = cos(alpha1);
+    M[1][0] =  sin(alpha1);     M[1][1] = -sin(alpha2);     M[1][2] = -sin(alpha2);      M[1][3] = sin(alpha1);
+    M[2][0] = -1/raio;          M[2][1] = -1/raio;          M[2][2] =  -1/raio;          M[2][3] = -1/raio;
+
+    M = raioDaRoda * M;     //isto é feito para calcular a velocidade angular das rodas posteriormente, e não a linear
+
+    //calcula a matriz pseudo-inversa da matriz M
+
+    /// essa matriz deve ser invertida e para isso o calculo da pseudo inversa da biblioteca open cv é realizado.
+    pInvM = M.inv(cv::DECOMP_SVD);
+}
+
+ProtocoloSerial Montador::criaPacoteSerial(){
+
+    ProtocoloSerial pacote;
+
+    Comando comando = Sistema::modeloMundo.getRoboEq(id_)->getComando();
+
+<<<<<<< .mine
+    simulacao();
+
+    //    calculaVelSemControle_new();
+=======
+    //        calculaVelSemControle_new();
+>>>>>>> .r444
+
+    //    calculaVelControleSKUBA_new();
+
+    //    calculaVelSemControle();
+
+    calculaVelRodas();
+
+    pacote.setId((unsigned char)id_);
+
+    for(int i=0;i<4;i++){
+        pacote.setVelocidadePercentualRodas(i,(char)(fabs(velRodas[i][0])/config_montador_->max_vel_rodas_*100));
+        pacote.setDirecaoRodas(i, velRodas[i][0] < 0 ? ProtocoloSerial::HORARIO : ProtocoloSerial::ANTI_HORARIO);
+    }
+
+    pacote.setDirecaoDriblador(ProtocoloSerial::HORARIO);
+    pacote.setVelocidadePercentualDriblador(100);
+    pacote.setTipoChute(comando.getTipoChute());
+    pacote.setEnableChute(comando.getTipoChute() != Comando::SEM_CHUTE);
+    pacote.setNivelChute(15);
+
+    return pacote;
+}
+
+
+grSim_Packet Montador::criaPacoteGrSim(){
+
+    grSim_Packet pacote;
+
+    calculaVelSemControle();
+    //    calculaVelControleSKUBA_new();
+    //    calculaVelControleSKUBA();
+
+    cv::Mat_ <float> velRobo(3,1);
+
+    Robo *robo = Sistema::modeloMundo.getRoboEq(id_);
+    float orientacao = robo->getOrientacao();
+
+    //copia para uma matriz do opencv
+    velRobo[0][0] = robo->getVelocidade().x();     //velocidade em x
+    velRobo[1][0] = robo->getVelocidade().y();      //velocidade em y
+    velRobo[2][0] = robo->getVelAngular();       //velocidade angular
+
+    R[0][0] = cos(orientacao);       R[0][1] = sin(orientacao);
+    R[1][0] = -sin(orientacao);      R[1][1] = cos(orientacao);
+
+    //aplicação do modelo cinemático do robô
+    velRobo = R*velRobo;
+
+    grSim_Robot_Command *comandos = pacote.mutable_commands()->add_robot_commands();
+
+    pacote.mutable_commands()->set_isteamyellow(true);
+    pacote.mutable_commands()->set_timestamp(0);
+
+    comandos->set_id(id_);
+
+    Comando::TipoChute tipoChute = Sistema::modeloMundo.getRoboEq(id_)->getComando().getTipoChute();
+
+    if(tipoChute == Comando::SEM_CHUTE){
+        comandos->set_kickspeedx(0);
+        comandos->set_kickspeedz(0);
+    }else if(tipoChute == Comando::CHUTE_BAIXO){
+        comandos->set_kickspeedx(6);
+        comandos->set_kickspeedz(0);
+    }else if(tipoChute == Comando::CHUTE_ALTO){
+        comandos->set_kickspeedx(5);
+        comandos->set_kickspeedz(5);
+    }
+
+    comandos->set_wheelsspeed(false);
+    comandos->set_spinner(false);
+    comandos->set_veltangent(velRobo[0][0]);
+    comandos->set_velnormal(velRobo[1][0]);
+    comandos->set_velangular(velRobo[2][0]);
+
+    // cout << " Vel Simulador Antes = " << robo->getVelocidade().x() << " , " << robo->getVelocidade().y() << " , " <<  robo->getVelAngular() << endl;
+    // cout << "Vel Simulador =  " << velRobo[0][0] << " " <<  velRobo[1][0] << " " <<  velRobo[2][0] << endl;
+
+    return pacote;
+}
+
+<<<<<<< .mine
+void Montador::simulacao(){
+    Robo * robo = Sistema::modeloMundo.getRoboEq(id);
+    robo->setVelAngular(0.0);
+
+    float ang = 0.f,
+          veloc = 2.0f;
+
+    ang = ang * M_PI/ 180.f;
+
+    /// Caso o robo tenho um alvo antes de chegar no alvo final iremos mandar ele pra esse alvo
+    Vetor vetorDirecao(cos(ang), sin(ang));
+
+//    vetorDirecao = vetorDirecao/sqrt(vetorDirecao.squared_length());
+
+    vetorDirecao = Vetor(vetorDirecao.x()*veloc, vetorDirecao.y()*veloc);
+
+    robo->setVelocidade(vetorDirecao);
+
+    /// Zerando o tempo para pegar o proximo tempo de iteracao que levou
+    //    tempo.setTempoInicial(tempo.getTempoDoDia());
+
+    //    cout << velAtual << endl;
+}
+
+void Montador::calculaVelSemControle_new(){
+    Robo * robo = Sistema::modeloMundo.getRoboEq(id);
+=======
+
+void Montador::calculaVelSemControle(){
+    /// tempo de iteração em segundos usada para calcular a velocidade que ira ser incrementada ou diminuida do robo nessa iteracao
+    double tempo_iteracao = tempo_.getTempoPassado();
+
+    Robo * robo = Sistema::modeloMundo.getRoboEq(id_);
+>>>>>>> .r444
+    Comando comando = robo->getComando();
+
+    ConfigSkill config_skill = config_montador_->config_skills_[robo->getSkill()];
+
+    // Dependendo da distancia que o robo esta do alvo iremos calcular a velocidade que ele ira tomar
+    float vel_aux = 0.0;
+    float distanciaAlvo = squared_distance(robo->getPosicao(), comando.getAlvoFinal());/// pega a distancia do robo ao alvo, ou seja o erro de posicao
+
+    //    cout << "Id do robo: " << robo->getId() << " - Velocidade max: " << VEL_MAX << endl;
+
+    float limiar = 200*200;
+    //    float limiar = 100*100;
+
+    if(distanciaAlvo > limiar){
+
+        /// Incrementando o valor da velocidade do robo até chegar no maximo
+        vel_atual_ += tempo_iteracao*config_montador_->aceleracao_;
+        if(vel_atual_ > config_skill.max_vel_linear)
+            vel_atual_ = config_skill.max_vel_linear;
+
+        robo->setVelAngular(0.0);
+    }else {
+        vel_atual_ = config_skill.min_vel_linear;
+
+        /// Pegando o vetor de orientacao atual e o vetor de orientacao final para posicionar o robo de frente para a bola corretamente
+        Vetor orientacao = robo->getVetorOrientacao();
+        Vetor direcao = robo->getComando().getVetOrientacaoFinal();
+        float res = produtoVetorial2D(orientacao,direcao);
+        float denominador = sqrt(orientacao.squared_length())*sqrt(direcao.squared_length());
+        float theta = asin(fabs(res)/denominador);
+
+        /// Calculando o angulo entre os vetores da orientacao e da direcao pra saber para aonde ele deve girar
+        float velAngular = config_montador_->p_giro_*theta;
+        if(velAngular >= config_skill.max_vel_angular){
+            velAngular = config_skill.max_vel_angular;
+
+        }else if (velAngular <= config_skill.min_vel_angular){
+            velAngular = config_skill.min_vel_angular;
+        }
+
+        /// Se o angulo for maior que 180 iremos trocar o sinal para o robo nao ficar de costa para a bola
+        if(res < 0)
+            velAngular = -velAngular;
+
+        robo->setVelAngular(velAngular);
+    }
+
+    // verifica a diferenca entre a velocidade atual e a velocidade que queremos caso a diff seje grande iremos aumentar ou diminuir gradativamente
+    //    float diferencaModulos = moduloVel-vel_atual_;
+    //    if (diferencaModulos > 0.0 && diferencaModulos >= config_montador_->speed_up_){
+    //        vel_atual_ += config_montador_->speed_up_;
+
+    //        /// Verificando se a velocidade atual nao passa da velocidade maxima
+    //        if(vel_atual_ >= config_skill.max_vel_linear)
+    //            vel_atual_ = config_skill.max_vel_linear;
+
+    //        /// Se a diferenca é negativa é por que o robo está desacelerando, então teremos que analisar se ele não desacelera muito rápido
+    //    }else if(diferencaModulos < 0.0 && fabs(diferencaModulos) >= config_montador_->speed_down_){
+    //        vel_atual_ -= config_montador_->speed_down_;
+
+    //        /// Verificando se a velocidade atual nao passa da velocidade minima
+    //        if(vel_atual_ <= config_skill.min_vel_linear)
+    //            vel_atual_ <= config_skill.min_vel_linear;
+
+    //    }else{
+    //        vel_atual_ = moduloVel;
+    //    }
+
+    /// Tornando o vetor direcao unitario e setando o modulo da velocidade no vetor
+    Vetor vetorDirecao(comando.getAlvoFinal() - robo->getPosicao());
+    if(vel_atual_ != 0.0){
+        vetorDirecao = vetorDirecao/sqrt(vetorDirecao.squared_length());
+        vetorDirecao = Vetor(vetorDirecao.x()*vel_atual_, vetorDirecao.y()*vel_atual_);
+    }else{
+        vetorDirecao = Vetor(0.0, 0.0);
+    }
+
+    robo->setVelocidade(vetorDirecao);
+}
+
+void Montador::calculaVelControleSKUBA_new(){
+    /// @todo fazer uma coleta das velocidades de cada robo em cada eixo e analisar aqui com o produto vetorial qual o vetor mais perto e usar aquela velocidade e desaceleracao para melhorar o desempenho do robo
+
+    /// tempo de iteração em segundos usada para calcular a velocidade que ira ser incrementada ou diminuida do robo nessa iteracao
+    double tempo_iteracao = tempo_.getTempoPassado();
+
+    Robo * robo = Sistema::modeloMundo.getRoboEq(id_);
+    Comando comando = robo->getComando();
+
+    cout << "tempo da iteração: " << tempo_iteracao << endl;
+
+    cout << "id do robo: " << id_ << " - Skill: " << robo->getSkill() << endl;
+
+    ConfigSkill config_skill = config_montador_->config_skills_[robo->getSkill()];
+
+    /// pega a distancia do robo ao alvo, ou seja o erro de posicao
+    Ponto alvo_final(comando.getAlvoFinal().x()/1000.0, comando.getAlvoFinal().y()/1000.0);
+    Ponto pos_robo(robo->getPosicao().x()/1000.0, robo->getPosicao().y()/1000.0);
+
+    cout << "alvo final: " << alvo_final <<endl;
+    cout << "posicao do robo: " << pos_robo << endl;
+
+    cout << "vel atual: " << vel_atual_ << endl;
+
+    /// Distancia do robo ao alvo convertendo pra metros para comparar depois
+    float squared_dist_alvo = squared_distance(pos_robo, alvo_final);
+
+    cout << "dist até o alvo: " << sqrt(squared_dist_alvo) << endl;
+
+    /// Formula de torricelli me manda a distancia que vou precisar
+    float dist_comecar_parar = fabs((config_skill.max_vel_aprox*config_skill.max_vel_aprox - vel_atual_*vel_atual_)/(2.0*config_montador_->desaceleracao_));
+
+    cout << "dist para comecar a parar: " << dist_comecar_parar << endl;
+
+    cout << "max vel aprox: " << config_skill.max_vel_aprox << ", desaceleração: " << config_montador_->desaceleracao_ << endl;
+
+    /// Se a distancia para parar for maior que a distancia ate o alvo temos que comecar a fazer o robo desacelerar até chegar a velocidade de aproximacao do alvo
+    if(dist_comecar_parar*dist_comecar_parar >= squared_dist_alvo){
+        vel_atual_ -= config_montador_->desaceleracao_*tempo_iteracao; /// Vel que irei enviar para o robo, iremos desacelerar ate ele chegar na velocidade de aproximacao
+
+        /// Se a velocidade que iremos enviar for menor que a velocidade de aproximacao do robo iremos setar que a velocidade sera a velocidade de aproximacao
+        if(vel_atual_ < config_skill.min_vel_linear)
+            vel_atual_ = config_skill.min_vel_linear;
+
+        /// Pegando o vetor de orientacao atual e o vetor de orientacao final para posicionar o robo de frente para a bola corretamente
+        Vetor orientacao = robo->getVetorOrientacao();
+        Vetor orientacao_final = robo->getComando().getVetOrientacaoFinal();
+        float res = produtoVetorial2D(orientacao, orientacao_final);
+        //        float denominador = sqrt(orientacao.squared_length())*sqrt(orientacao_final.squared_length());
+        float denominador = sqrt(orientacao.squared_length()*orientacao_final.squared_length());
+        float theta = asin(fabs(res)/denominador);
+
+        /// Calculando o angulo entre os vetores da orientacao e da direcao pra saber para aonde ele deve girar
+        /// aplicando um k de giro para o robo girar mais rapido ou mais devagar
+        float velAngular = config_montador_->p_giro_*theta /*+ Dgiro*(thetaAnterior-theta)/tempoIteracao*/;
+        if(velAngular >= config_skill.max_vel_angular){
+            velAngular = config_skill.max_vel_angular;
+        }else if (velAngular <= config_skill.min_vel_angular){
+            velAngular = config_skill.min_vel_angular;
+        }
+        //        thetaAnterior = theta;
+
+        /// Se o angulo for maior que 180 iremos trocar o sinal para o robo nao ficar de costa para a bola
+        if(res < 0) velAngular *= -1;
+
+        robo->setVelAngular(velAngular); /// setando a velocidade angular no robo
+
+    }else{
+
+        /// Calculando a nova velocidade e a nova distancia que teremos que comecar a diminuir a velocidade
+        vel_atual_ += config_montador_->aceleracao_*tempo_iteracao;
+
+        /// Formula de torricelli me manda a distancia que vou precisar
+        dist_comecar_parar = fabs((config_skill.max_vel_aprox*config_skill.max_vel_aprox - vel_atual_*vel_atual_)/(2.0*config_montador_->desaceleracao_));
+        float tempo_parar = dist_comecar_parar/fabs(config_skill.max_vel_aprox-vel_atual_);
+
+        /// Se a distancia ainda for maior iremos calcular a aceleracao maxima que o robo podera alcancar ate comecar a desacelerar
+        if(dist_comecar_parar*dist_comecar_parar >= squared_dist_alvo){
+            double max_vel = fabs(dist_comecar_parar - config_montador_->desaceleracao_*tempo_parar*tempo_parar/2.0)/tempo_parar;
+
+            /// desacelerando até chegar na máxima velocidade
+            if(max_vel < vel_atual_){
+                vel_atual_ -= config_montador_->desaceleracao_*tempo_iteracao;
+
+                /// acelerando até chegar na máxima velocidade
+            }else if(max_vel > vel_atual_){
+                vel_atual_ += config_montador_->aceleracao_*tempo_iteracao;
+
+                /// setando a máxima velocidade permitida
+            }else{
+                vel_atual_ = max_vel;
+            }
+        }
+
+        /// Se a velocidade ultrapassar a velocidade de desclocamento ela ira receber como valor limite a velocidade de deslocamente
+        if(vel_atual_ > config_skill.max_vel_linear){
+            vel_atual_ = config_skill.max_vel_linear;
+        }
+
+        robo->setVelAngular(0.0); /// o robo não irá girar enquanto não estiver perto do alvo (@todo remover isso posteriormente quando melhorarmos as táticas)
+    }
+    robo->setVelAngular(0.0);
+
+    cout << "nova vel: " << vel_atual_ << endl;
+
+    /// Tornando o vetor direcao unitario e setando o modulo da velocidade no vetor
+    Vetor vetorDirecao(comando.getAlvoFinal() - robo->getPosicao());
+    if(vel_atual_ != 0.0){
+        vetorDirecao = vetorDirecao/sqrt(vetorDirecao.squared_length());
+        vetorDirecao = Vetor(vetorDirecao.x()*vel_atual_ , vetorDirecao.y()*vel_atual_); /// convertendo para de m/s para mm/s
+    }else{
+        vetorDirecao = Vetor(0.0, 0.0);
+    }
+    robo->setVelocidade(vetorDirecao); /// setando o vetor direcao e de velocidade que o robó terá
+
+    /// Zerando o tempo para pegar o proximo tempo de iteracao que levou
+    tempo_.setTempoInicial(tempo_.getTempoDoDia());
+
+    cout << endl;
+}
+
+void Montador::calculaVelControleSKUBA(){
+
+    Robo * robo = Sistema::modeloMundo.getRoboEq(id_);
+    Comando comando = robo->getComando();
+
+    ConfigSkill config_skill = config_montador_->config_skills_[robo->getSkill()];
+
+    /// Tempo que leva pra diminuir da velocidade atual a velocidade minima ou de aproximacao
+    double tDiminuirVel = vel_atual_/config_montador_->desaceleracao_; /// tempo que o robo teoricamente ira demorar para parar
+
+    /// pega a distancia do robo ao alvo, ou seja o erro de posicao
+    Ponto alvo = comando.getAlvoFinal();
+    float distAlvo = sqrt(squared_distance(robo->getPosicao(), alvo))/1000.0;
+
+    float moduloVel = 0.0; /// velocidade que o robo teoricamete ira assumir
+    double tempoIteracao = tempo_.getTempoPassado();  /// tempo de iteração em segundos
+    double distComecarParar = tDiminuirVel*vel_atual_ - config_montador_->desaceleracao_*tDiminuirVel*tDiminuirVel/2.0; /// distancia que o robo ira demorar para parar
+
+    /// se a distancia ate o alvo for menor que a distancia para parar, iremos comecar a diminuir a velocidade do robo
+    if(distComecarParar >= distAlvo){
+        moduloVel = vel_atual_ - config_montador_->desaceleracao_*tempoIteracao;
+        if(moduloVel < 0.0) moduloVel = 0.0;
+
+        /// se o alvo estiver long iremos acelerar o robo ate a velocidade maxima
+    }else{
+
+        /// Calculando a nova velocidade e a nova distancia que teremos que comecar a diminuir a velocidade
+        moduloVel = vel_atual_ + config_montador_->aceleracao_*tempoIteracao;
+        double tempoParada = moduloVel/config_montador_->desaceleracao_; /// Tempo que o robo leva pra diminuir toda a velocidade
+        double distanciaParada = tempoParada*moduloVel - config_montador_->desaceleracao_*tempoParada*tempoParada/2.0;
+
+        /// Se a distancia ainda for maior iremos calcular a aceleracao maxima que o robo podera alcancar ate comecar a desa
+        if(distanciaParada >= distAlvo){
+            moduloVel = (distanciaParada + config_montador_->desaceleracao_*tempoParada*tempoParada/2.0)/tempoParada;
+        }
+
+        if(moduloVel>config_skill.max_vel_linear)
+            moduloVel=config_skill.max_vel_linear;
+    }
+
+    /// Se o alvo estiver perto iremos comecar a girar pra ficar de frente pra bola
+    if(distAlvo < distComecarParar){
+        Vetor orientacao = robo->getVetorOrientacao();
+        Vetor direcao = robo->getComando().getVetOrientacaoFinal();
+        float res = produtoVetorial2D(orientacao,direcao);
+        float denominador = sqrt(orientacao.squared_length())*sqrt(direcao.squared_length());
+        float theta = asin(fabs(res)/denominador);
+
+        // Calculando o angulo entre os vetores da orientacao e da direcao pra saber para aonde ele deve girar
+        float velAngular = config_montador_->p_giro_*theta;
+        if(velAngular >= config_skill.max_vel_angular){
+            velAngular = config_skill.max_vel_angular;
+
+        }else if (velAngular <= config_skill.min_vel_angular){
+            velAngular = config_skill.min_vel_angular;
+        }
+
+        if(res < 0) velAngular = -velAngular;
+
+        robo->setVelAngular(velAngular);
+    }else{
+        robo->setVelAngular(0.0);
+    }
+
+    // Tornando o vetor direcao unitario
+    Vetor vetorDirecao(alvo - robo->getPosicao());
+    if(moduloVel != 0.0){
+        vetorDirecao = vetorDirecao/sqrt(vetorDirecao.squared_length());
+        vetorDirecao = Vetor(vetorDirecao.x()*moduloVel, vetorDirecao.y()*moduloVel);
+    }else{
+        vetorDirecao = Vetor(0.0, 0.0);
+    }
+    robo->setVelocidade(vetorDirecao);
+
+    /// Setando o tempo inicial e a velocidade atual
+    tempo_.setTempoInicial(tempo_.getTempoDoDia());
+    vel_atual_ = moduloVel;
+}
+
+void Montador::calculaVelControleP(){
+    //    Robo* robo = Sistema::modeloMundo.getRobo(id);
+    //    float velAngular;
+
+    //    Vetor vetorDirecao = (robo->getComando().getAlvoFinal() - robo->getPosicao())/100;
+
+    //    if(vetorDirecao.squared_length() > VEL_MAX*VEL_MAX){
+    //        float fator = VEL_MAX/vetorDirecao.squared_length();
+    //        vetorDirecao= Vetor(vetorDirecao.x()*fator,vetorDirecao.y()*fator);
+    //    }
+
+    //    robo->setVelocidade(vetorDirecao);
+
+    //    Vetor orientacao = robo->getVetorOrientacao();
+    //    Vetor direcao = robo->getComando().getVetDirecao();
+    //    float res = produtoVetorial2D(orientacao,direcao);
+
+    //    float denomidador = sqrt(orientacao.squared_length())*sqrt(direcao.squared_length());
+    //    float theta = asin(fabs(res)/denomidador);
+
+    //    if(res > 0){
+    //        velAngular =  10*theta;
+    //    }else{
+    //        velAngular = -10*theta;
+    //    }
+    //    robo->setVelAngular(velAngular);
+}
+
+void Montador::calculaVelRodas(){
+    cv::Mat_ <float> velRobo(3,1);
+
+    Robo *robo = Sistema::modeloMundo.getRoboEq(id_);
+    //cout << "orientacao = " << orientacao << endl;
+
+    //copia para uma matriz do opencv
+    velRobo[0][0] = robo->getVelocidade().x();     //velocidade em x
+    velRobo[1][0] = robo->getVelocidade().y();      //velocidade em y
+    velRobo[2][0] = robo->getVelAngular();       //velocidade angular
+
+    float orientacao = robo->getOrientacao();
+    R[0][0] = cos(orientacao);       R[0][1] = sin(orientacao);
+    R[1][0] = -sin(orientacao);      R[1][1] = cos(orientacao);
+
+    //aplicação do modelo cinemático do robô
+    velRodas = pInvM*R*velRobo;
+
+    float velMaxRodaAtual = config_montador_->max_vel_rodas_;
+    float fator = velMaxRodaAtual / config_montador_->max_vel_rodas_;
+    //seleciona a maior das velocidades entre as rodas
+    for(int i=0;i<4;i++){
+        if(fabs(velRodas[i][0]) > velMaxRodaAtual){
+            velRodas[i][0] = velRodas[i][0]/fator;
+            //            velMaxRodaAtual = fabs(velRodas[i][0]);
+        }
+    }
+
+    //cout << "velRodas = " << endl << velRodas << endl;
+
+    //reduz a velocidade das rodas caso uma delas ultrapasse a velocidade máxima possível
+    //    fator = velMaxRodaAtual / VEL_MAX_RODAS;
+    //    for(int i=0;i<4;i++){
+    //        velRodas[i][0] = velRodas[i][0]/fator;
+    //    }
+
+    /// TODO colocar isso depois
+    //        ajustaVelocidades();
+}
+
+void Montador::calculaVelRodasAdv(int _id){
+    cv::Mat_ <float> velRobo(3,1);
+    float velMaxRodaAtual = config_montador_->max_vel_rodas_;
+    float fator;
+
+    RoboAdv *roboAdv = Sistema::modeloMundo.getRoboAdv(_id);
+    float orientacao = roboAdv->getOrientacao();
+
+    //cout << "orientacao = " << orientacao << endl;
+
+    //copia para uma matriz do opencv
+    velRobo[0][0] = roboAdv->getVelocidade().x();     //velocidade em x
+    velRobo[1][0] = roboAdv->getVelocidade().y();      //velocidade em y
+    velRobo[2][0] = roboAdv->getVelAngular();       //velocidade angular
+
+    R[0][0] = cos(orientacao);       R[0][1] = sin(orientacao);
+    R[1][0] = -sin(orientacao);      R[1][1] = cos(orientacao);
+
+    //aplicação do modelo cinemático do robô
+    velRodas = pInvM*R*velRobo;
+
+
+    //seleciona a maior das velocidades entre as rodas
+    for(int i=0;i<4;i++){
+        if(fabs(velRodas[i][0]) > velMaxRodaAtual){
+            velMaxRodaAtual = fabs(velRodas[i][0]);
+        }
+    }
+
+    //cout << "velRodas = " << endl << velRodas << endl;
+
+    //reduz a velocidade das rodas caso uma delas ultrapasse a velocidade máxima possível
+    fator = velMaxRodaAtual / config_montador_->max_vel_rodas_;
+    for(int i=0;i<4;i++){
+        velRodas[i][0] = velRodas[i][0]/fator;
+    }
+
+    /// TODO colocar isso depois
+    //        ajustaVelocidades();
+}
+
+void Montador::ajustaVelocidades(){
+    cv::Mat_<float> invR = R.inv(); //testar essa invR;
+    cv::Mat_<float> vel = invR*M*velRodas;
+
+    Sistema::modeloMundo.getRoboEq(id_)->setVelocidade(Vetor(vel[0][0],vel[1][0]));
+    Sistema::modeloMundo.getRoboEq(id_)->setVelAngular(vel[2][0]);
+
+}
+
+//float Montador::calculaVelAngular(Ponto alvoFinal, Ponto posRobo, Vetor orientacao, Vetor direcao)
+//{
+//    float distanciaAlvo = sqrt(squared_distance(alvoFinal, posRobo));
+
+//    float res = produtoVetorial2D(orientacao,direcao);
+
+//    float denomidador = sqrt(orientacao.squared_length())*sqrt(direcao.squared_length());
+//    float theta;
+//    if (denomidador != 0){
+//        theta= asin(fabs(res)/denomidador);
+//    }else{
+//        theta = 0;
+//    }
+
+//    float velAngular = 0.0;
+
+//    if(distanciaAlvo < 800){
+
+//        velAngular =  Pgiro*theta;
+//        if(velAngular > MAX_VEL_ANGULAR){
+//            velAngular = MAX_VEL_ANGULAR;
+//        }else{
+//            if (velAngular < MIN_VEL_ANGULAR){
+//                velAngular =MIN_VEL_ANGULAR;
+
+//                //cout << " SETOU VELOCIDADE MINIMA DE GIRO" << endl;
+//            }
+//        }
+//        if(res < 0){
+//            velAngular =  -velAngular;
+//        }
+//    }
+
+//    return velAngular;
+//}
+
+ProtocoloSerial Montador::criaPacoteSerial(RoboAdv* adv){
+
+    ProtocoloSerial pacote;
+    //  calculaVelocidades();
+
+    Comando comando = adv->getComando();
+    //    calculaVelAngular(comando.getAlvoFinal(), adv->getPosicao(), adv->getVetorOrientacao(), comando.getVetDirecao());
+
+    calculaVelRodasAdv(adv->getId());
+
+    pacote.setId((unsigned char)adv->getId());
+
+    for(int i=0;i<4;i++){
+        pacote.setVelocidadePercentualRodas(i,(char)(fabs(velRodas[i][0])/config_montador_->max_vel_rodas_*100));
+
+        if(velRodas[i][0]<0){
+            pacote.setDirecaoRodas(i,ProtocoloSerial::HORARIO);
+        }else{
+            pacote.setDirecaoRodas(i,ProtocoloSerial::ANTI_HORARIO);
+        }
+
+    }
+
+
+    pacote.setDirecaoDriblador(ProtocoloSerial::HORARIO);
+
+    pacote.setVelocidadePercentualDriblador(100);
+
+    pacote.setTipoChute(comando.getTipoChute());
+    if(comando.getTipoChute() != Comando::SEM_CHUTE){
+        pacote.setEnableChute(true);
+    }
+    else{
+        pacote.setEnableChute(false);
+    }
+
+    pacote.setNivelChute(100);
+
+    return pacote;
+
+}
+
+grSim_Packet Montador::criaPacoteGrSim(RoboAdv* adv){
+
+    grSim_Packet pacote;
+
+    //  calculaVelocidades();
+
+    Comando comando = adv->getComando();
+    //    adv->setVelAngular(calculaVelAngular(comando.getAlvoFinal(), adv->getPosicao(), adv->getVetorOrientacao(), comando.getVetDirecao()));
+
+    // calculaVelRodasAdv(adv->getId());
+
+    cv::Mat_ <float> velRobo(3,1);
+
+    float orientacao = adv->getOrientacao();
+
+    //copia para uma matriz do opencv
+    velRobo[0][0] = adv->getVelocidade().x();     //velocidade em x
+    velRobo[1][0] = adv->getVelocidade().y();      //velocidade em y
+    velRobo[2][0] = adv->getVelAngular();       //velocidade angular
+
+
+    R[0][0] = cos(orientacao);       R[0][1] = sin(orientacao);
+    R[1][0] = -sin(orientacao);      R[1][1] = cos(orientacao);
+
+    //aplicação do modelo cinemático do robô
+    velRobo = R*velRobo;
+
+    grSim_Robot_Command *comandos = pacote.mutable_commands()->add_robot_commands();
+
+    pacote.mutable_commands()->set_isteamyellow(false);
+    pacote.mutable_commands()->set_timestamp(0);
+
+    comandos->set_id(adv->getId());
+
+    Comando::TipoChute tipoChute = comando.getTipoChute();
+
+    if(tipoChute == Comando::SEM_CHUTE){
+        comandos->set_kickspeedx(0);
+        comandos->set_kickspeedz(0);
+    }else if(tipoChute == Comando::CHUTE_BAIXO){
+        comandos->set_kickspeedx(6);
+        comandos->set_kickspeedz(0);
+    }else if(tipoChute == Comando::CHUTE_ALTO){
+        comandos->set_kickspeedx(5);
+        comandos->set_kickspeedz(5);
+    }
+
+    comandos->set_wheelsspeed(false);
+    comandos->set_spinner(false);
+
+    comandos->set_veltangent(velRobo[0][0]);
+    comandos->set_velnormal(velRobo[1][0]);
+    comandos->set_velangular(velRobo[2][0]);
+
+    return pacote;
+}
+
+
+//void Montador::calculaVelocidades(){
+
+//    //    Robo *robo = Sistema::modeloMundo.getRobo(id);
+
+//    //    Vetor vel = 3*(robo->getComando().getAlvoFinal() - robo->getPosicao())/1000.0;
+
+//    //    if(vel.squared_length() > VEL_MAX*VEL_MAX){
+
+//    //        float fator = VEL_MAX/vel.squared_length();
+
+//    //        vel = Vetor(vel.x()*fator,vel.y()*fator);
+//    //    }
+
+//    //    robo->setVelocidade(vel);
+
+
+//    //    robo->setVelAngular(robo->getComando().getDirecao() - robo->getOrientacao());
+
+//    //cout << "id = " << id << endl;
+//    Robo * robo = Sistema::modeloMundo.getRobo(id);
+//    float velAngular;
+//    float modulo;
+//    float moduloFinal;
+//    Vetor velocidadeAtual;
+//    float moduloDesejado;
+//    Vetor vetorDirecao;
+//    float diferencaModulos;
+//    Comando comando;
+//    comando = robo->getComando();
+
+//    float distanciaQuadradaDoAlvo;
+//    distanciaQuadradaDoAlvo = squared_distance(comando.getAlvoFinal(),robo->getPosicao());
+
+//    //cout << "distancia quadrada do alvo = " << distanciaQuadradaDoAlvo << endl;
+
+//    //cout << comando.getAlvoFinal();
+//    //cout << robo->getPosicao();
+
+
+//    Vetor orientacao = robo->getVetorOrientacao();
+//    Vetor direcao = robo->getComando().getVetDirecao();
+//    float res = produtoVetorial2D(orientacao,direcao);
+
+//    float denomidador = sqrt(orientacao.squared_length())*sqrt(direcao.squared_length());
+//    float theta = asin(fabs(res)/denomidador);
+
+////    if(res >0){
+////        robo->setVelAngular(theta);
+////    }else{
+////        robo->setVelAngular(-theta);
+////    }
+
+//    //cria um vetor com a velocidade atual do robô
+//    velocidadeAtual = robo->getVelocidade();
+
+//    if(distanciaQuadradaDoAlvo > 10){ //50 cm
+//        moduloDesejado = VEL_MAX /*comando.getModuloVelDeslocamento()*/;
+//        velAngular = 0;
+//    }else{
+//        moduloDesejado = VEL_MINIMA_DESLOCAMENTO/*comando.getModuloVelAproximacao()*/;
+//        //cout << "Antes de setar vel angular " << endl;
+//        if(res > 0){
+//            velAngular =  theta;
+//        }else{
+//            velAngular = -theta;
+//        }
+//    }
+
+//    if(comando.getModuloVelAproximacao() < 0.01){
+//        moduloDesejado = 0;
+//    }
+
+////    if(distanciaQuadradaDoAlvo > Avaliador::TOLERANCIA_PERTENCE_ALVO && moduloDesejado < VEL_MINIMA_DESLOCAMENTO){
+////        moduloDesejado = VEL_MINIMA_DESLOCAMENTO;
+////    }
+
+//    diferencaModulos = moduloDesejado - sqrt(velocidadeAtual.squared_length());
+
+
+//    //    //cria um vetor direção unitário
+//    vetorDirecao = (comando.getAlvoFinal() - robo->getPosicao())/1000; //adquire um vetor direção em m/s
+
+//    //cout << "vetor Direcao = " << vetorDirecao << endl;
+
+////    if(diferencaModulos > 0){   //aumenta velocidade
+////        if (diferencaModulos > MAXIMA_MUDANCA_MODULO_VEL){
+////            moduloFinal = modulo + MAXIMA_MUDANCA_MODULO_VEL;
+////        }else{
+////            moduloFinal = moduloDesejado;
+////        }
+////    }else{
+////        if (fabs(diferencaModulos) > MAXIMA_MUDANCA_MODULO_VEL){
+////            moduloFinal = modulo - MAXIMA_MUDANCA_MODULO_VEL;
+////        }else{
+////            moduloFinal = moduloDesejado;
+////        }
+////    }
+
+//    moduloFinal = moduloDesejado;
+
+//    modulo = sqrt(vetorDirecao.squared_length());
+//    if(modulo > 0.01){ //modulo != 0
+//        vetorDirecao = Vetor(vetorDirecao.x()/modulo,vetorDirecao.y()/modulo);
+//    }
+
+
+////    if(vetorDirecao.squared_length() > moduloFinal*moduloFinal){
+
+////        float fator = moduloFinal/vetorDirecao.squared_length();
+
+////        vetorDirecao= Vetor(vetorDirecao.x()*fator,vetorDirecao.y()*fator);
+////    }
+
+//    robo->setVelocidade(moduloFinal*vetorDirecao);
+//    robo->setVelAngular(velAngular);
+
+//    //cout << "theta = " << theta << endl;
+//    cout << "vel robo = " << robo->getVelocidade() << " " << velAngular << endl;
+
+
+//}

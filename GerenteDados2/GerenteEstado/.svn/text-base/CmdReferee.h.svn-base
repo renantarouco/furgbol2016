@@ -1,0 +1,64 @@
+/**
+    @author Sidnei Filho.
+    @file CmdReferee.h.
+    @date 17/05/2011.
+
+    Arquivo que contém as constantes usadas para definir os estados do jogo.
+*/
+
+#ifndef CMDREFEREE_H
+#define CMDREFEREE_H
+
+// valores das cores dos times
+#define TEAM_YELLOW         0   /**< @def valor do time yellow*/
+#define TEAM_BLUE           1   /**< @def valor do time blue*/
+
+// inicio, reinicio e parada do jogo
+#define STOP		   'S'  /**< @def O jogo foi parado e os robôs precisam estar a 500 mm da bola*/
+#define START		   's'  /**< @def Usado quando se quer iniciar o jogo, começo dos tempos ou em faltas*/
+#define HALT	           'H'  /**< @def O jogo foi paralisado e os robôs também foram parados*/
+#define READY	           ' '  /**< @def Usado quando é falta que o referee envia pra robô saber que pode chutar a bola*/
+
+// tempos do jogo
+#define FIRST_HALF         '1'  /**< @def Indica que é o primeiro tempo do jogo*/
+#define HALF_TIME          'h'  /**< @def É o intervalo entre o FirstHalf e SecondHalf*/
+#define SECOND_HALF	   '2'  /**< @def Indica que é o segundo tempo do jogo*/
+#define OVER_TIME1         'o'  /**< @def Indica o 1º tempo da prorrogação*/
+#define OVER_TIME2	   'O'  /**< @def Indica o 2º tempo da prorrogação*/
+#define PENALTY_SHOOTOUT   'a'  /**< @def Indica cobrança de penaltes, depois que acabar a prorrogação*/
+
+// pedidos de tempo das equipes
+#define TIMEOUT_YELLOW	   't'  /**< @def Pedido de tempo de 5 minutos da equipe Yellow*/
+#define TIMEOUT_BLUE	   'T'  /**< @def Pedido de tempo de 5 minutos da equipe Blue*/
+#define TIMEOUT_END        'z'  /**< @def Fim do pedido de tempo de alguma das equipes*/
+
+// gols
+#define GOAL_YELLOW	   'g'  /**< @def Aumenta 1 gol da equipe Yellow*/
+#define GOAL_BLUE          'G'  /**< @def Aumenta 1 gol da equipe Blue*/
+#define SUBGOAL_YELLOW	   'd'  /**< @def Diminui 1 gol da equipe Yellow*/
+#define SUBGOAL_BLUE	   'D'  /**< @def Diminui 1 gol da equipe Blue*/
+
+#define CANCEL             'c'  /**< @def Cancela o pedido de tempo ou cartão*/
+
+// cartões para os robôs
+#define YELLOWCARD_YELLOW  'y'  /**< @def Cartão amarelo pra equipe Yellow, robô fica fora 2 minutos*/
+#define YELLOWCARD_BLUE    'Y'  /**< @def Cartão amarelo pra equipe Blue, robô fica fora 2 minutos*/
+#define REDCARD_YELLOW     'r'  /**< @def Cartão vermelho pra equipe Yellow, robô fica fora da partida*/
+#define REDCARD_BLUE       'R'  /**< @def Cartão vermelho pra equipe Blue, robô fica fora da partida*/
+
+// reinicios da partida: faltas, laterais e escanteios
+#define RESTART		   'n'  /**< @def Indica que houve um reinicio na partida*/
+
+#define KICKOFF_YELLOW	   'k'  /**< @def Indica que tem um lateral ou escanteio pra equipe Yellow*/
+#define KICKOFF_BLUE	   'K'  /**< @def Indica que tem um lateral ou escanteio pra equipe Blue*/
+
+#define PENALTY_YELLOW	   'p'  /**< @def Indica que tem um penalty pra equipe Yellow*/
+#define PENALTY_BLUE	   'P'  /**< @def Indica que tem um penalty pra equipe Blue*/
+
+#define DIRECT_YELLOW	   'f'  /**< @def Indica que tem uma falta direta pra equipe Yellow*/
+#define DIRECT_BLUE        'F'  /**< @def Indica que tem uma falta direta pra equipe Blue*/
+
+#define INDIRECT_YELLOW	   'i'  /**< @def Indica que tem uma falta indireta pra equipe Yellow*/
+#define INDIRECT_BLUE	   'I'  /**< @def Indica que tem uma falta indireta pra equipe Blue*/
+
+#endif // CMDREFEREE_H

@@ -1,0 +1,149 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/furgbol/!svn/ver/472/grSim-new/src
+END
+getpositionwidget.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/furgbol/!svn/ver/472/grSim-new/src/getpositionwidget.h
+END
+configwidget.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/furgbol/!svn/ver/472/grSim-new/src/configwidget.h
+END
+sslworld.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/furgbol/!svn/ver/472/grSim-new/src/sslworld.h
+END
+logger.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/furgbol/!svn/ver/472/grSim-new/src/logger.cpp
+END
+mainwindow.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/furgbol/!svn/ver/472/grSim-new/src/mainwindow.h
+END
+main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/furgbol/!svn/ver/472/grSim-new/src/main.cpp
+END
+logger.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/furgbol/!svn/ver/472/grSim-new/src/logger.h
+END
+robot.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/furgbol/!svn/ver/472/grSim-new/src/robot.cpp
+END
+statuswidget.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/472/grSim-new/src/statuswidget.cpp
+END
+robotwidget.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/furgbol/!svn/ver/472/grSim-new/src/robotwidget.cpp
+END
+robot.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/furgbol/!svn/ver/472/grSim-new/src/robot.h
+END
+statuswidget.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/furgbol/!svn/ver/472/grSim-new/src/statuswidget.h
+END
+common.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/furgbol/!svn/ver/472/grSim-new/src/common.h
+END
+robotwidget.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/furgbol/!svn/ver/472/grSim-new/src/robotwidget.h
+END
+graphics.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/furgbol/!svn/ver/472/grSim-new/src/graphics.cpp
+END
+graphics.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/furgbol/!svn/ver/472/grSim-new/src/graphics.h
+END
+glwidget.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/furgbol/!svn/ver/472/grSim-new/src/glwidget.cpp
+END
+winmain.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/furgbol/!svn/ver/472/grSim-new/src/winmain.h
+END
+getpositionwidget.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/472/grSim-new/src/getpositionwidget.cpp
+END
+configwidget.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/472/grSim-new/src/configwidget.cpp
+END
+sslworld.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/furgbol/!svn/ver/472/grSim-new/src/sslworld.cpp
+END
+config.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/furgbol/!svn/ver/472/grSim-new/src/config.h
+END
+glwidget.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/furgbol/!svn/ver/472/grSim-new/src/glwidget.h
+END
+mainwindow.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/furgbol/!svn/ver/472/grSim-new/src/mainwindow.cpp
+END

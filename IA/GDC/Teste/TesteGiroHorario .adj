@@ -1,0 +1,25 @@
+JOGADA TesteGiroHorario
+
+APLICAVEL teste
+FINALIZA abortada !teste
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL1
+    Gira 90.0
+    fim    
+
+PAPEL2
+    Gira 90.0
+    fim
+
+PAPEL3
+    Gira 90.0
+    fim
+
+PAPEL4
+    Gira 90.0
+    fim

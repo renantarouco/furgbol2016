@@ -1,0 +1,22 @@
+#include <opencv/cv.h>
+
+#include <vector>
+#include <queue>
+#include <string>
+#include <iostream>
+#include <string>
+#include <QMutex>
+
+using namespace std;
+using namespace cv;
+
+#ifndef CORES_H
+#define CORES_H
+
+//int const INFINITY_POINT = Ponto(500000.0, 500000.0);
+
+enum CorEquipe {
+    Amarelo=0, Azul=1
+};
+
+#endif

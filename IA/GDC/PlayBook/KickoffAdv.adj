@@ -1,0 +1,29 @@
+JOGADA KickoffAdv
+
+APLICAVEL kickoff_adv
+FINALIZA completada !kickoff_adv
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    DefesaCirculo b 500.0
+    fim  
+    
+PAPEL1
+    DefesaCirculo b 500.0
+    fim  
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    DefesaArea
+    fim
+
+PAPEL4
+    DefesaArea
+    fim

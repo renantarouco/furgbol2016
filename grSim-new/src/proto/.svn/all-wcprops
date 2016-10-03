@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto
+END
+messages_robocup_ssl_refbox_log.proto
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto/messages_robocup_ssl_refbox_log.proto
+END
+grSim_Packet.proto
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto/grSim_Packet.proto
+END
+messages_robocup_ssl_geometry.proto
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto/messages_robocup_ssl_geometry.proto
+END
+messages_robocup_ssl_detection.proto
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto/messages_robocup_ssl_detection.proto
+END
+grSim_Replacement.proto
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto/grSim_Replacement.proto
+END
+messages_robocup_ssl_wrapper.proto
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto/messages_robocup_ssl_wrapper.proto
+END
+grSim_Commands.proto
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/472/grSim-new/src/proto/grSim_Commands.proto
+END

@@ -1,0 +1,1137 @@
+#include <gerenteVisao.h>
+
+#include <utils.h>
+#include <cstdio>
+#include <iostream>
+
+using namespace std;
+
+GerenteVisao::GerenteVisao(){
+    numFrameCam0 = numFrameCam1 = 0;
+    corEquipe = Amarelo;
+
+    delay = 0;
+
+    fonte = SSL_VISION;
+
+    numFrameVisao = 0;
+
+    robos.clear();
+    robosAdv.clear();
+    for(int id=0;id<NUM_MAX_ROBOS;id++){
+        robos.push_back(Robo(id, true));
+        robosAdv.push_back(Robo(id, false));
+    }
+}
+
+
+GerenteVisao::GerenteVisao(Barramento *_barramento){
+
+    barramento = _barramento;
+    numFrameCam0 = numFrameCam1 = 0;
+    corEquipe = Amarelo;
+    ladoCampoEquipe = ESQUERDO;
+
+    delay = 0;
+
+    fonte = SSL_VISION;
+
+    numFrameVisao = 0;
+
+    robos.clear();
+    robosAdv.clear();
+    for(int id=0;id<NUM_MAX_ROBOS;id++){
+        robos.push_back(Robo(id, true));
+        robosAdv.push_back(Robo(id, false));
+    }
+}
+
+GerenteVisao::~GerenteVisao()
+{
+    fechaArquivo();
+}
+
+void GerenteVisao::setFonteDados(FonteDados _fonte){
+    fonte = _fonte;
+}
+
+void GerenteVisao::setIdRoboEq(int numRobo, int id){
+    if(numRobo < 0 || numRobo > NUM_MAX_ROBOS){
+        cout << "ERRO: Robo inválido" << endl;
+    }
+
+    robos[numRobo].setId(id);
+}
+
+void GerenteVisao::setIdRoboAdv(int numRobo, int id){
+    if(numRobo < 0 || numRobo > NUM_MAX_ROBOS){
+        cout << "ERRO: Robo inválido" << endl;
+    }
+
+    robosAdv[numRobo].setId(id);
+}
+
+void GerenteVisao::setCorEquipe(CorEquipe corTime){
+    corEquipe = corTime;
+}
+
+bool GerenteVisao::abreComunicacaoSSLVision(){
+    return comunicacaoSSL.open(portaVisao, true);
+}
+
+bool GerenteVisao::fechaComunicacaoSSLVision(){
+    comunicacaoSSL.close();
+    return true;
+}
+
+void GerenteVisao::predicaoKalman(){
+
+    bola.predicaoKalman();
+
+    for(int i=0;i<5;i++){
+        robos[i].predicaoKalman();
+        robosAdv[i].predicaoKalman();
+    }
+}
+
+void GerenteVisao::correcaoKalman(){
+
+    bola.correcaoKalman();
+
+    for(int i=0;i<5;i++){
+        robos[i].correcaoKalman();
+
+        robosAdv[i].correcaoKalman();
+    }
+}
+
+void GerenteVisao::analisaPacotesKalman(const SSL_DetectionFrame &frameCam0,const SSL_DetectionFrame &frameCam1){
+
+    predicaoKalman();
+
+    //analisa os frames escolhendo pela posição mais próxima da predita.
+
+    int numBolas;
+    int numRobos;
+    //    bool achouRobo = false;
+    unsigned int id;
+
+    int menorDistancia = 1000;
+
+    Mat_<float> matAux(2,1);
+
+    float conf=0;
+
+    PacoteRobo roboVisao;
+    SSL_DetectionBall bolaAux;
+    SSL_DetectionRobot roboAux;
+    bool achado;
+
+    for(int i=0;i<NUM_MAX_ROBOS;i++){
+        robos[i].setConfiabilidade(0);
+        robosAdv[i].setConfiabilidade(0);
+    }
+
+    //*******************************************************************/
+    bola.setConfiabilidade(0);
+    //! Descobre qual bola possui a maior confiabilidade
+    numBolas = frameCam0.balls_size();
+    for(int i=0;i<numBolas;i++){
+        bolaAux = frameCam0.balls(i);
+        matAux[0][0] = bolaAux.x();
+        matAux[1][0] = bolaAux.y();
+
+        bool analisar = false;
+        if(CAMPO_VER == DIREITO && bolaAux.x() > 0.0){
+            analisar = true;
+        }else if(CAMPO_VER == ESQUERDO && bolaAux.x() < 0.0){
+            analisar = true;
+        }
+
+        if(analisar && squaredDistance(matAux,bola.getPosicao() < menorDistancia)){
+            bola.setPosicao(bolaAux.x(),bolaAux.y());
+            bola.setZ(bolaAux.z());
+            bola.setConfiabilidade(bolaAux.confidence());
+        }
+    }
+    numBolas = frameCam1.balls_size();
+    for(int i=0;i<numBolas;i++){
+        bolaAux = frameCam1.balls(i);
+        matAux[0][0] = bolaAux.x();
+        matAux[1][0] = bolaAux.y();
+
+        bool analisar = false;
+        if(CAMPO_VER == DIREITO && bolaAux.x() > 0.0){
+            analisar = true;
+        }else if(CAMPO_VER == ESQUERDO && bolaAux.x() < 0.0){
+            analisar = true;
+        }
+
+        if(analisar && squaredDistance(matAux,bola.getPosicao() < menorDistancia)){
+            bola.setPosicao(bolaAux.x(),bolaAux.y());
+            bola.setZ(bolaAux.z());
+            bola.setConfiabilidade(bolaAux.confidence());
+        }
+    }
+    //*********************************************************************
+
+    //*******************************************************************/
+
+
+    //! Para todos os robos azuis
+    for(int j=0;j<NUM_MAX_ROBOS;j++){
+        conf = 0;
+        achado = false;
+
+        if(corEquipe == Azul){
+            id = robos[j].getId();
+        }else{
+            id = robosAdv[j].getId();
+        }
+
+        menorDistancia = 1000;
+
+        //! Descobre qual bola possui a maior confiabilidade
+        numRobos = frameCam0.robots_blue_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam0.robots_blue(i);
+
+            if(id == roboAux.robot_id()){
+                achado = true;
+                matAux[0][0] = roboAux.x();
+                matAux[1][0] = roboAux.y();
+
+                bool analisar = false;
+                if(CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+                    analisar = true;
+                }else if(CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+                    analisar = true;
+                }
+
+                if(analisar && squaredDistance(matAux,robos[j].getPosicao())<menorDistancia){
+                    if(corEquipe == Azul){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+        numRobos = frameCam1.robots_blue_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam1.robots_blue(i);
+            if(id == roboAux.robot_id()){
+                achado = true;
+                matAux[0][0] = roboAux.x();
+                matAux[1][0] = roboAux.y();
+
+                bool analisar = false;
+                if(CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+                    analisar = true;
+                }else if(CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+                    analisar = true;
+                }
+
+                if(analisar && squaredDistance(matAux,robos[j].getPosicao())<menorDistancia){
+                    if(corEquipe == Azul){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+
+        if(achado){
+            if(corEquipe == Azul){
+                robos[j].incrementaContadorAchado();
+            }else{
+                robosAdv[j].incrementaContadorAchado();
+            }
+        }else{
+            if(corEquipe == Azul){
+                robos[j].incrementaContadorNaoAchado();
+            }else{
+                robosAdv[j].incrementaContadorNaoAchado();
+            }
+        }
+
+    }
+    //*********************************************************************
+
+    //*******************************************************************/
+    //! Para todos os robos amarelos do pacote
+    for(int j=0;j<NUM_MAX_ROBOS;j++){
+        conf = 0;
+        achado = false;
+        if(corEquipe == Amarelo){
+            id = robos[j].getId();
+        }else{
+            id = robosAdv[j].getId();
+        }
+
+        menorDistancia = 1000;
+
+        //! Descobre qual bola possui a maior confiabilidade
+        numRobos = frameCam0.robots_yellow_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam0.robots_yellow(i);
+            if(id == roboAux.robot_id()){
+                achado = true;
+                matAux[0][0] = roboAux.x();
+                matAux[1][0] = roboAux.y();
+
+                bool analisar = false;
+                if(CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+                    analisar = true;
+                }else if(CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+                    analisar = true;
+                }
+
+                if(analisar && squaredDistance(matAux,robos[j].getPosicao())<menorDistancia){
+                    if(corEquipe == Amarelo){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+        numRobos = frameCam1.robots_yellow_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam1.robots_yellow(i);
+            if(id == roboAux.robot_id()){
+                achado = true;
+                matAux[0][0] = roboAux.x();
+                matAux[1][0] = roboAux.y();
+
+                bool analisar = false;
+                if(CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+                    analisar = true;
+                }else if(CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+                    analisar = true;
+                }
+
+                if(analisar && squaredDistance(matAux,robos[j].getPosicao())<menorDistancia){
+                    if(corEquipe == Amarelo){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+
+        if(achado){
+            if(corEquipe == Amarelo){
+                robos[j].incrementaContadorAchado();
+            }else{
+                robosAdv[j].incrementaContadorAchado();
+            }
+        }else{
+            if(corEquipe == Amarelo){
+                robos[j].incrementaContadorNaoAchado();
+            }else{
+                robosAdv[j].incrementaContadorNaoAchado();
+            }
+        }
+    }
+
+
+    delay = ((frameCam0.t_sent()- frameCam0.t_capture()) + (frameCam1.t_sent() -  frameCam1.t_capture()))/2;
+
+    correcaoKalman();
+}
+
+void GerenteVisao::analisaPacotesKalman(const SSL_DetectionFrame &frameCam0){
+
+    predicaoKalman();
+
+    //analisa os frames escolhendo pela posição mais próxima da predita.
+
+    int numBolas;
+    int numRobos;
+    //    bool achouRobo = false;
+    unsigned int id;
+
+    int menorDistancia = 1000;
+
+    Mat_<float> matAux(2,1);
+
+    float conf=0;
+
+    PacoteRobo roboVisao;
+    SSL_DetectionBall bolaAux;
+    SSL_DetectionRobot roboAux;
+    bool achado;
+
+    for(int i=0;i<NUM_MAX_ROBOS;i++){
+        robos[i].setConfiabilidade(0);
+        robosAdv[i].setConfiabilidade(0);
+    }
+
+    //*******************************************************************/
+    bola.setConfiabilidade(0);
+    //! Descobre qual bola possui a maior confiabilidade
+    numBolas = frameCam0.balls_size();
+    for(int i=0;i<numBolas;i++){
+        bolaAux = frameCam0.balls(i);
+        matAux[0][0] = bolaAux.x();
+        matAux[1][0] = bolaAux.y();
+        if(squaredDistance(matAux,bola.getPosicao() < menorDistancia)){
+            bola.setPosicao(bolaAux.x(),bolaAux.y());
+            bola.setZ(bolaAux.z());
+            bola.setConfiabilidade(bolaAux.confidence());
+        }
+    }
+    //*********************************************************************
+
+    //*******************************************************************/
+
+
+    //! Para todos os robos azuis
+    for(int j=0;j<NUM_MAX_ROBOS;j++){
+        conf = 0;
+        achado = false;
+        if(corEquipe == Azul){
+            id = robos[j].getId();
+        }else{
+            id = robosAdv[j].getId();
+        }
+
+        menorDistancia = 1000;
+
+        //! Descobre qual bola possui a maior confiabilidade
+        numRobos = frameCam0.robots_blue_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam0.robots_blue(i);
+
+            if(id == roboAux.robot_id()){
+                achado = true;
+                matAux[0][0] = roboAux.x();
+                matAux[1][0] = roboAux.y();
+                if(squaredDistance(matAux,robos[j].getPosicao())<menorDistancia){
+                    if(corEquipe == Azul){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+
+        if(achado){
+            if(corEquipe == Azul){
+                robos[j].incrementaContadorAchado();
+            }else{
+                robosAdv[j].incrementaContadorAchado();
+            }
+        }else{
+            if(corEquipe == Azul){
+                robos[j].incrementaContadorNaoAchado();
+            }else{
+                robosAdv[j].incrementaContadorNaoAchado();
+            }
+        }
+
+    }
+    //*********************************************************************
+
+    //*******************************************************************/
+    //! Para todos os robos amarelos do pacote
+    for(int j=0;j<NUM_MAX_ROBOS;j++){
+        conf = 0;
+        achado = false;
+        if(corEquipe == Amarelo){
+            id = robos[j].getId();
+        }else{
+            id = robosAdv[j].getId();
+        }
+
+        menorDistancia = 1000;
+
+        //! Descobre qual bola possui a maior confiabilidade
+        numRobos = frameCam0.robots_yellow_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam0.robots_yellow(i);
+            if(id == roboAux.robot_id()){
+                achado = true;
+                matAux[0][0] = roboAux.x();
+                matAux[1][0] = roboAux.y();
+                if(squaredDistance(matAux,robos[j].getPosicao())<menorDistancia){
+                    if(corEquipe == Amarelo){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+
+        if(achado){
+            if(corEquipe == Amarelo){
+                robos[j].incrementaContadorAchado();
+            }else{
+                robosAdv[j].incrementaContadorAchado();
+            }
+        }else{
+            if(corEquipe == Amarelo){
+                robos[j].incrementaContadorNaoAchado();
+            }else{
+                robosAdv[j].incrementaContadorNaoAchado();
+            }
+        }
+    }
+
+    delay = frameCam0.t_sent() - frameCam0.t_capture();
+
+    correcaoKalman();
+}
+
+void GerenteVisao::analisaPacotes(const SSL_DetectionFrame &frameCam0,const SSL_DetectionFrame &frameCam1){
+
+    int numBolas;
+    int numRobos;
+    //    bool achouRobo = false;
+    unsigned int id;
+
+    float  conf=0;
+
+    PacoteRobo roboVisao;
+    SSL_DetectionBall bolaAux;
+    SSL_DetectionRobot roboAux;
+    bool achado;
+
+    bool analisar = true;
+
+    for(int i=0;i<NUM_MAX_ROBOS;i++){
+        robos[i].setConfiabilidade(0);
+        robosAdv[i].setConfiabilidade(0);
+    }
+
+    //*******************************************************************/
+    bola.setConfiabilidade(0);
+    //! Descobre qual bola possui a maior confiabilidade
+    numBolas = frameCam0.balls_size();
+    for(int i=0;i<numBolas;i++){
+        bolaAux = frameCam0.balls(i);
+
+//        bool analisar = false;
+//        if(CAMPO_VER == DIREITO && bolaAux.x() > 0.0){
+//            analisar = true;
+//        }else if(CAMPO_VER == ESQUERDO && bolaAux.x() < 0.0){
+//            analisar = true;
+//        }
+
+        if(analisar && (bola.getConfiabilidade()<bolaAux.confidence())){
+            bola.setPosicao(bolaAux.x(),bolaAux.y());
+            bola.setZ(bolaAux.z());
+            bola.setConfiabilidade(bolaAux.confidence());
+        }
+    }
+    numBolas = frameCam1.balls_size();
+    for(int i=0;i<numBolas;i++){
+        bolaAux = frameCam1.balls(i);
+
+//        bool analisar = false;
+//        if(CAMPO_VER == DIREITO && bolaAux.x() > 0.0){
+//            analisar = true;
+//        }else if(CAMPO_VER == ESQUERDO && bolaAux.x() < 0.0){
+//            analisar = true;
+//        }
+
+        if(analisar && (bola.getConfiabilidade()<bolaAux.confidence())){
+            bola.setPosicao(bolaAux.x(),bolaAux.y());
+            bola.setZ(bolaAux.z());
+            bola.setConfiabilidade(bolaAux.confidence());
+        }
+    }
+    //*********************************************************************
+
+    //*******************************************************************/
+    //! Para todos os robos azuis
+    for(int j=0;j<NUM_MAX_ROBOS;j++){
+
+        if(corEquipe == Azul){
+            id = robos[j].getId();
+            conf = robos[j].getConfiabilidade();
+        }else{
+            id = robosAdv[j].getId();
+            conf = robosAdv[j].getConfiabilidade();
+        }
+
+        achado = false;
+        //! Descobre qual bola possui a maior confiabilidade
+        numRobos = frameCam0.robots_blue_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam0.robots_blue(i);
+
+            if(id == roboAux.robot_id()){
+                achado = true;
+
+//                bool analisar = false;
+//                if(CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+//                    analisar = true;
+//                }else if(CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+//                    analisar = true;
+//                }
+
+                if(analisar && (conf < roboAux.confidence())){
+                    if(corEquipe == Azul){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+        numRobos = frameCam1.robots_blue_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam1.robots_blue(i);
+            if(id == roboAux.robot_id()){
+                achado = true;
+
+//                bool analisar = false;
+//                if(CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+//                    analisar = true;
+//                }else if(CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+//                    analisar = true;
+//                }
+
+                if(analisar && (conf < roboAux.confidence())){
+                    if(corEquipe == Azul){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+
+        if(achado){
+            if(corEquipe == Azul){
+                robos[j].incrementaContadorAchado();
+            }else{
+                robosAdv[j].incrementaContadorAchado();
+            }
+        }else{
+            if(corEquipe == Azul){
+                robos[j].incrementaContadorNaoAchado();
+            }else{
+                robosAdv[j].incrementaContadorNaoAchado();
+            }
+        }
+
+    }
+    //*********************************************************************
+
+    //*******************************************************************/
+    //! Para todos os robos amarelos do pacote
+    for(int j=0;j<NUM_MAX_ROBOS;j++){
+        achado = false;
+        if(corEquipe == Amarelo){
+            id = robos[j].getId();
+            conf = robos[j].getConfiabilidade();
+
+        }else{
+            id = robosAdv[j].getId();
+            conf = robosAdv[j].getConfiabilidade();
+
+        }
+        //! Descobre qual bola possui a maior confiabilidade
+        numRobos = frameCam0.robots_yellow_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam0.robots_yellow(i);
+            if(id == roboAux.robot_id()){
+                achado = true;
+
+//                bool analisar = false;
+//                if((LadoCampo)CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+//                    analisar = true;
+//                }else if((LadoCampo)CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+//                    analisar = true;
+//                }
+
+                if(analisar && (conf < roboAux.confidence())){
+                    if(corEquipe == Amarelo){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+        numRobos = frameCam1.robots_yellow_size();
+        for(int i=0;i<numRobos;i++){
+            roboAux = frameCam1.robots_yellow(i);
+            if(id == roboAux.robot_id()){
+                achado = true;
+
+//                bool analisar = false;
+//                if((LadoCampo)CAMPO_VER == DIREITO && roboAux.x() > 0.0){
+//                    analisar = true;
+//                }else if((LadoCampo)CAMPO_VER == ESQUERDO && roboAux.x() < 0.0){
+//                    analisar = true;
+//                }
+
+                if(analisar && (conf < roboAux.confidence())){
+                    if(corEquipe == Amarelo){
+                        robos[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robos[j].setConfiabilidade(roboAux.confidence());
+                    }else{
+                        robosAdv[j].setPosicao(roboAux.x(),roboAux.y(),roboAux.orientation());
+                        robosAdv[j].setConfiabilidade(roboAux.confidence());
+                    }
+                    conf = roboAux.confidence();
+                }
+
+            }
+        }
+
+        if(achado){
+            if(corEquipe == Amarelo){
+                robos[j].incrementaContadorAchado();
+            }else{
+                robosAdv[j].incrementaContadorAchado();
+            }
+        }else{
+            if(corEquipe == Amarelo){
+                robos[j].incrementaContadorNaoAchado();
+            }else{
+                robosAdv[j].incrementaContadorNaoAchado();
+            }
+        }
+
+    }
+    //*********************************************************************
+
+    delay = ((frameCam0.t_sent()- frameCam0.t_capture()) + (frameCam1.t_sent() -  frameCam1.t_capture()))/2;
+}
+
+void GerenteVisao::analisaPacotes(const SSL_DetectionFrame &frameCam0){
+
+
+    //*******************************************************************/
+
+    SSL_DetectionBall bolaAux;
+    bola.setConfiabilidade(0);
+    //! Descobre qual bola possui a maior confiabilidade
+    int numBolas = frameCam0.balls_size();
+    for(int i=0;i<numBolas;i++){
+        bolaAux = frameCam0.balls(i);
+        if(bola.getConfiabilidade()<bolaAux.confidence()){
+            bola.setPosicao(bolaAux.x(),bolaAux.y());
+            bola.setZ(bolaAux.z());
+            bola.setConfiabilidade(bolaAux.confidence());
+        }
+    }
+
+    //*******************************************************************
+
+    //************************* Processando pacotes dos robos da equipe e do adversario ******************************************/
+    SSL_DetectionRobot roboAux;
+    unsigned int id;
+
+    vector<RoboSSL> robosSSL(NUM_MAX_ROBOS), robosAdvSSL(NUM_MAX_ROBOS);
+    int numRobosAzuis=frameCam0.robots_blue_size(), numRobosAmarelos=frameCam0.robots_yellow_size();
+
+    /// verificando qual é a cor do nosso time para selecionar o pacote certo
+    if(corEquipe == Azul){
+
+        /// analisando os robos da equipe que sao azuis
+        for(int i=0; i < numRobosAzuis; i++){
+
+            /// pegando o robo da equipe do frame dos robos azui enviado
+            roboAux = frameCam0.robots_blue(i);
+            id = roboAux.robot_id();
+
+            /// caso não tenha nenhum robo ainda iremos adicionar ele, caso contrário
+            /// irá ser analisado a confiabilidade e irá ser pego o robo com maior confiabilidade
+            /// @todo pegar o robo mais próximo da posição anterior dele
+            if(!robosSSL[id].achado || robosSSL[id].confidence < roboAux.confidence()){
+                robosSSL[id].achado = true;
+                robosSSL[id].x = roboAux.x();
+                robosSSL[id].y = roboAux.y();
+                robosSSL[id].orientation = roboAux.orientation();
+                robosSSL[id].confidence = roboAux.confidence();
+            }
+        }
+
+        /// analisando os robos adversarios que amarelos
+        for(int i=0; i < numRobosAmarelos; i++){
+
+            /// pegando o robo adv do frame dos robos amarelos enviado
+            roboAux = frameCam0.robots_yellow(i);
+            id = roboAux.robot_id();
+
+            /// caso não tenha nenhum robo ainda iremos adicionar ele, caso contrário
+            /// irá ser analisado a confiabilidade e irá ser pego o robo com maior confiabilidade
+            /// @todo pegar o robo mais próximo da posição anterior dele
+            if(!robosAdvSSL[id].achado || robosAdvSSL[id].confidence < roboAux.confidence()){
+                robosAdvSSL[id].achado = true;
+                robosAdvSSL[id].x = roboAux.x();
+                robosAdvSSL[id].y = roboAux.y();
+                robosAdvSSL[id].orientation = roboAux.orientation();
+                robosAdvSSL[id].confidence = roboAux.confidence();
+            }
+        }
+
+    }else{
+
+        /// analisando os robos da equipe que são os amarelos
+        for(int i=0; i < numRobosAmarelos; i++){
+
+            /// pegando o robo da equipe do frame dos robos azui enviado
+            roboAux = frameCam0.robots_yellow(i);
+            id = roboAux.robot_id();
+
+            /// caso não tenha nenhum robo ainda iremos adicionar ele, caso contrário
+            /// irá ser analisado a confiabilidade e irá ser pego o robo com maior confiabilidade
+            /// @todo pegar o robo mais próximo da posição anterior dele
+            if(!robosSSL[id].achado || robosSSL[id].confidence < roboAux.confidence()){
+                robosSSL[id].achado = true;
+                robosSSL[id].x = roboAux.x();
+                robosSSL[id].y = roboAux.y();
+                robosSSL[id].orientation = roboAux.orientation();
+                robosSSL[id].confidence = roboAux.confidence();
+            }
+        }
+
+        /// analisando os robos adversarios que são azuis
+        for(int i=0; i < numRobosAzuis; i++){
+
+            /// pegando o robo adv do frame dos robos amarelos enviado
+            roboAux = frameCam0.robots_blue(i);
+            id = roboAux.robot_id();
+
+            /// caso não tenha nenhum robo ainda iremos adicionar ele, caso contrário
+            /// irá ser analisado a confiabilidade e irá ser pego o robo com maior confiabilidade
+            /// @todo pegar o robo mais próximo da posição anterior dele
+            if(!robosAdvSSL[id].achado || robosAdvSSL[id].confidence < roboAux.confidence()){
+                robosAdvSSL[id].achado = true;
+                robosAdvSSL[id].x = roboAux.x();
+                robosAdvSSL[id].y = roboAux.y();
+                robosAdvSSL[id].orientation = roboAux.orientation();
+                robosAdvSSL[id].confidence = roboAux.confidence();
+            }
+        }
+    }
+
+    /// atualizando os robos encontrados, os que não foram encontrados e atualizando as posicoes deles
+    for(id=0;id<NUM_MAX_ROBOS;id++){
+
+        /// se o robo foi encontrado iremos setar o robo no vetor de robo
+        if(robosSSL[id].achado){
+
+            /// setando os dados do robo
+            robos[id].setPosicao(robosSSL[id].x, robosSSL[id].y, robosSSL[id].orientation);
+            robos[id].setConfiabilidade(robosSSL[id].confidence);
+            robos[id].incrementaContadorAchado();
+
+        }else{
+            /// caso o robo não tenha sido encontrado iremos incrementar o contador que ele não foi encontrado
+            robos[id].incrementaContadorNaoAchado();
+        }
+
+        /// se o robo foi encontrado iremos setar o robo no vetor de robo
+        if(robosAdvSSL[id].achado){
+
+            /// setando os dados do robo
+            robosAdv[id].setPosicao(robosAdvSSL[id].x, robosAdvSSL[id].y, robosAdvSSL[id].orientation);
+            robosAdv[id].setConfiabilidade(robosAdvSSL[id].confidence);
+            robosAdv[id].incrementaContadorAchado();
+
+        }else{
+            /// caso o robo não tenha sido encontrado iremos incrementar o contador que ele não foi encontrado
+            robosAdv[id].incrementaContadorNaoAchado();
+        }
+    }
+
+    //*********************************************************************
+    delay = frameCam0.t_sent() - frameCam0.t_capture();
+}
+
+
+void GerenteVisao::kill(){
+    executar = false;
+
+    wait();
+
+    comunicacaoSSL.close();
+}
+
+PacoteVisao GerenteVisao::montaPacoteVisao(){
+
+    PacoteVisao pctVisao;
+    PacoteBola *pctBola;
+    PacoteRobo *pctRobo;
+
+    numFrameVisao ++;
+    pctVisao.set_numeroframe(numFrameVisao);
+    pctVisao.set_delay(delay);
+
+    pctBola = pctVisao.mutable_bola();
+    pctBola->set_x(bola.getPosicao()[0][0]);
+    pctBola->set_y(bola.getPosicao()[1][0]);
+    pctBola->set_z(bola.getZ());
+
+    /// criando o pacote dos robos da equipe
+    int contRobos=0;
+    for(int id=0; id < NUM_MAX_ROBOS && contRobos < NUM_ROBOS_JOGANDO; id++){
+
+        /// verificando se o robo foi achado, caso tenha sido iremos adicionar no pacote de dados
+        if(robos[id].foiAchado()){
+
+            /// setando os dados do robo
+            pctRobo = pctVisao.add_robosequipe();
+            pctRobo->set_id(id);
+            pctRobo->set_x(robos[id].getPosicao()[0][0]);
+            pctRobo->set_y(robos[id].getPosicao()[1][0]);
+            pctRobo->set_orientation(robos[id].getPosicao()[2][0]);
+
+            /// incrementando a quantidade de robos que iremos enviar, pois temos que analisar senão passa do maximo de robos possiveis
+            /// @todo caso tenha mais robos do que o possivel para jogar, temos que pegar os robos mais confiaveis
+            contRobos++;
+        }
+    }
+
+    contRobos=0;
+    /// criando o pacote dos robos adversarios
+    for(int id=0; id < NUM_MAX_ROBOS && contRobos < NUM_ROBOS_JOGANDO;id++){
+
+        /// verificando se o robo foi achado, caso tenha sido iremos adicionar no pacote de dados
+        if(robosAdv[id].foiAchado()){
+
+            /// setando os dados do robo
+            pctRobo = pctVisao.add_robosadversarios();
+            pctRobo->set_id(id);
+            pctRobo->set_x(robosAdv[id].getPosicao()[0][0]);
+            pctRobo->set_y(robosAdv[id].getPosicao()[1][0]);
+            pctRobo->set_orientation(robosAdv[id].getPosicao()[2][0]);
+
+            /// incrementando a quantidade de robos que iremos enviar, pois temos que analisar senão passa do maximo de robos possiveis
+            /// @todo caso tenha mais robos do que o possivel para jogar, temos que pegar os robos mais confiaveis
+            contRobos++;
+        }
+    }
+
+    //// salvando os dados dos robos que foram encontrados na visao
+    salvaPacotes();
+
+    return pctVisao;
+}
+
+//Funções de Interface
+void GerenteVisao::run(){   //retorna true se existem dados novos.
+
+    /// verificando se foi possivel abrir uma comunicacao com a IA
+    if(servidorGD.abre()){
+
+        abrirArqLog();
+
+        SSL_WrapperPacket pacote;
+        SSL_DetectionFrame frameCam0, frameCam1;
+        PacoteVisao frameFinal;
+        bool temFrame0=false, temFrame1=false;
+        bool comuSSLfuncionando;
+
+        PacoteDados pacoteDados;
+
+        executar = true;
+
+        /// abrindo a comunicacao com a visao
+        comuSSLfuncionando = comunicacaoSSL.open(portaVisao, true);
+
+        while(comuSSLfuncionando && executar){
+
+            /// recebendo pacotes da visao
+            if(comunicacaoSSL.receive(pacote)){
+                if(pacote.has_detection()){
+
+                    if(fonte == SSL_VISION){
+
+                        if(pacote.detection().camera_id() == 0){
+                            if(pacote.detection().frame_number() > numFrameCam0){ //!< Recebeu um novo pacote da câmera 0
+                                numFrameCam0 = pacote.detection().frame_number();
+
+                                temFrame0=true;
+                                frameCam0.CopyFrom(pacote.detection());
+                            }
+                        }else if(pacote.detection().camera_id() == 1){
+
+                            if(pacote.detection().frame_number() > numFrameCam1){ //!< Recebeu um novo pacote da câmera 1
+                                numFrameCam1 = pacote.detection().frame_number();
+
+                                temFrame1=true;
+                                frameCam1.CopyFrom(pacote.detection());
+                            }
+                        }
+
+                        /// verificando se foi recebido os frames das duas cameras
+                        if(temFrame0 && temFrame1){
+                            temFrame0 = temFrame1 = false;
+
+                            /// verificando a confiabilidade do pacote
+                            analisaPacotes(frameCam0, frameCam1);
+
+                            /// montador pacote
+                            frameFinal = montaPacoteVisao();
+
+                            barramento->setPacoteVisao(frameFinal);
+                            barramento->setPosicaoBola(bola.getPosicao());
+
+                            /// enviando os pacotes de dados para a IA
+                            barramento->getPacoteDados(pacoteDados);
+                            servidorGD.envia(pacoteDados);
+                        }
+
+                    }else if (fonte == SIMULADOR){
+
+                        if(pacote.detection().frame_number() > numFrameCam0){ //!< Recebeu um novo pacote da câmera 0
+
+                            if(pacote.detection().frame_number() > numFrameCam0+1){
+                                cout << "Perdeu " <<  pacote.detection().frame_number()-numFrameCam0-1 << " frames " << endl;
+                            }
+
+                            numFrameCam0 = pacote.detection().frame_number();
+
+                            /// analisando o pacote recebido pelo simulador para saber quais sao os verdadeiros robos e a bola
+                            analisaPacotes(pacote.detection());
+
+                            /// montando pacote de dados pra enviar para a IA
+                            frameFinal = montaPacoteVisao();
+
+                            //coloca o frame no barramento
+                            barramento->setPacoteVisao(frameFinal);
+                            barramento->setPosicaoBola(bola.getPosicao());
+
+                            /// enviando os pacotes de dados para a IA
+                            barramento->getPacoteDados(pacoteDados);
+                            servidorGD.envia(pacoteDados);
+                        }
+                        //                    }
+                    }
+                }
+                if(pacote.has_geometry()){  //! No momento o pacote geometria é impresso e descartado
+                    //                std::cout << pacote.geometry().DebugString();   //imprime o pacote de geometria
+                }
+            }
+        }
+
+        /// fechando a comunicacao com a visao e com a IA
+        comunicacaoSSL.close();
+        servidorGD.fecha();
+    }
+}
+
+void GerenteVisao::abrirArqLog()
+{
+    struct timeval tv;
+    gettimeofday(&tv,0);
+    tempoInicial = (double)tv.tv_sec + (double) tv.tv_usec/1000000.0;
+
+    arquivo = fopen("Pacotes.txt", "w+");
+    if(arquivo == 0x0)
+    {
+        printf("Erro ao abrir arquivo!\n");
+    }
+}
+
+void GerenteVisao::fechaArquivo()
+{
+    fclose(arquivo);
+    printf("Arquivo Fechado!\n");
+}
+
+void GerenteVisao::salvaPacotes()
+{
+    struct timeval tv;
+    gettimeofday(&tv,0);
+    double tempo = (double)tv.tv_sec + (double) tv.tv_usec/1000000.0;
+    tempo = tempo - tempoInicial;
+
+    int i=4;
+    for(i = 0 ; i < NUM_MAX_ROBOS ;i++ )
+    {
+        if(robos[i].foiAchado())
+        {
+            fprintf(arquivo, "id=%d posicao=%f %f orientacao=%f",
+                    i,    robos[i].getPosicao()[0][0], robos[i].getPosicao()[1][0],
+                    robos[i].getPosicao()[2][0]
+                    );
+            fprintf(arquivo, " frame=%u delay=%u tempo=%lf\n" , numFrameVisao, delay, tempo );
+        }
+    }
+
+}
+
+void GerenteVisao::setTaxaEnvioIA(int taxaEnvio){
+    cout << "setando taxa de envio: " << taxaEnvio << endl;
+}
+
+void GerenteVisao::setIpIA(string ipIA){
+    servidorGD.setIpEnvio(ipIA);
+}
+
+void GerenteVisao::setPortaEnviaIA(int porta){
+    servidorGD.setPortaEnvio(porta);
+}
+
+void GerenteVisao::setPortaVisao(int porta){
+    cout << "setando porta: " << porta << endl;
+    portaVisao = porta;
+}
+
+void GerenteVisao::setBarramento(Barramento *_barramento)
+{
+    barramento = _barramento;
+}
+
+string GerenteVisao::getIpIA(){
+    return servidorGD.ipEnvio;
+}
+
+int GerenteVisao::getPortaVisao(){
+    return portaVisao;
+}
+
+void GerenteVisao::setLadoCampo(LadoCampo _ladoCampo)
+{
+    ladoCampoEquipe = _ladoCampo;
+}

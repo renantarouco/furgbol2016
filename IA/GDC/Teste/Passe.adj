@@ -1,0 +1,29 @@
+JOGADA Passe
+
+APLICAVEL teste
+FINALIZA abortada !teste
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+    
+PAPEL0
+    PasseLongo
+    fim 
+    
+PAPEL1
+    ReceberPasse 1 (1500 -1500 800)
+    fim    
+
+PAPEL2
+    ReceberPasse 1 (1500 1500 800)
+    fim
+
+PAPEL3
+    PosicionaDefesa ge area 900.0
+    fim
+    
+PAPEL4
+    PosicionaDefesa ge area 900.0
+    fim

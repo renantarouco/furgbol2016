@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador
+END
+Navegador.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/Navegador.cpp
+END
+Navegador.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/Navegador.h
+END
+Obstaculo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/Obstaculo.cpp
+END
+KDNodo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/KDNodo.cpp
+END
+KDTree.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/KDTree.cpp
+END
+Obstaculo.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/Obstaculo.h
+END
+KDNodo.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/KDNodo.h
+END
+KDTree.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Navegador/KDTree.h
+END

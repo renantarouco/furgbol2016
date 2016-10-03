@@ -1,0 +1,31 @@
+JOGADA DirectKickEq
+
+APLICAVEL direct_kick_eq
+FINALIZA abortada !direct_kick_eq
+
+POSCONDICOES robo_ativo_nao_tocar_bola
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    Chute
+    fim 
+    
+PAPEL1
+    DefesaArea
+    fim   
+
+PAPEL2
+    DefesaArea
+    fim
+
+PAPEL3
+    DefesaArea
+    fim
+
+PAPEL4
+    DefesaArea
+    fim

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/furgbol/!svn/ver/580/trunk/IA/Agente/Maquinas
+END
+DadosSensoriais.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/DadosSensoriais.h
+END
+DefendePonto.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/DefendePonto.h
+END
+Percepcao.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/Percepcao.cpp
+END
+MaquinaSkills.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/MaquinaSkills.h
+END
+MoveBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/MoveBola.cpp
+END
+Percepcao.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/Percepcao.h
+END
+MoveBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/MoveBola.h
+END
+DadosSensoriais.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/DadosSensoriais.cpp
+END
+DefendePonto.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/furgbol/!svn/ver/580/trunk/IA/Agente/Maquinas/DefendePonto.cpp
+END
+MaquinaSkills.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Maquinas/MaquinaSkills.cpp
+END

@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/furgbol/!svn/ver/581/trunk/IA/Agente/Skills
+END
+GiraAntiHorario.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraAntiHorario.h
+END
+ChutaAlto.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/ChutaAlto.h
+END
+ViraParaAlvo.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/ViraParaAlvo.h
+END
+GiraHorarioDrible.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraHorarioDrible.h
+END
+MantemPosicao.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/MantemPosicao.cpp
+END
+VaiParaAlvoDevagar.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/VaiParaAlvoDevagar.h
+END
+DominaBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/DominaBola.cpp
+END
+CarregaBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/CarregaBola.h
+END
+ViraParaBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/ViraParaBola.h
+END
+Chuta.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/Chuta.h
+END
+EmpurraBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/EmpurraBola.cpp
+END
+VaiParaAlvo.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/VaiParaAlvo.h
+END
+GiraHorario.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraHorario.h
+END
+GiraEixo.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraEixo.h
+END
+Skill.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/Skill.cpp
+END
+GiraAntiHorario.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraAntiHorario.cpp
+END
+ChutaAlto.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/ChutaAlto.cpp
+END
+VaiParaBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/VaiParaBola.h
+END
+ViraParaAlvo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/ViraParaAlvo.cpp
+END
+GiraHorarioDrible.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraHorarioDrible.cpp
+END
+VaiParaAlvoDevagar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/VaiParaAlvoDevagar.cpp
+END
+CarregaBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/CarregaBola.cpp
+END
+ViraParaBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/ViraParaBola.cpp
+END
+MantemPosicao.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/MantemPosicao.h
+END
+Chuta.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/furgbol/!svn/ver/581/trunk/IA/Agente/Skills/Chuta.cpp
+END
+VaiParaAlvo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/VaiParaAlvo.cpp
+END
+GiraHorario.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraHorario.cpp
+END
+GiraEixo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/GiraEixo.cpp
+END
+DominaBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/DominaBola.h
+END
+EmpurraBola.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/EmpurraBola.h
+END
+VaiParaBola.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/VaiParaBola.cpp
+END
+Skill.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/579/trunk/IA/Agente/Skills/Skill.h
+END

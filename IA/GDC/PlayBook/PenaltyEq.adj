@@ -1,0 +1,29 @@
+JOGADA PenaltyEq
+
+APLICAVEL penalty_eq !ready
+FINALIZA abortada !penalty_eq | abortada ready
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    DefesaCirculo b 30.0
+    fim
+    
+PAPEL1
+    DefesaArea
+    fim
+    
+PAPEL2
+    DefesaArea
+    fim
+    
+PAPEL3
+    DefesaArea
+    fim
+    
+PAPEL4
+    DefesaArea
+    fim

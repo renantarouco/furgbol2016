@@ -1,0 +1,29 @@
+JOGADA PenaltyAdv
+
+APLICAVEL penalty_adv
+FINALIZA abortada !penalty_adv
+
+TIMEOUT 0
+
+GOLEIRO
+    DefendeGol
+
+PAPEL0
+    Posiciona (90 800)
+    fim
+    
+PAPEL1
+    DefesaArea
+    fim  
+
+PAPEL2
+    Posiciona (90 -400)
+    fim
+
+PAPEL3
+    Posiciona (90 400)
+    fim
+
+PAPEL4
+    Posiciona (90 -800)
+    fim

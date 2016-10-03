@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/furgbol/!svn/ver/472/grSim-new/src/net
+END
+robocup_ssl_server.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/472/grSim-new/src/net/robocup_ssl_server.h
+END
+robocup_ssl_client.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/472/grSim-new/src/net/robocup_ssl_client.cpp
+END
+robocup_ssl_client.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/472/grSim-new/src/net/robocup_ssl_client.h
+END
+robocup_ssl_server.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/furgbol/!svn/ver/472/grSim-new/src/net/robocup_ssl_server.cpp
+END

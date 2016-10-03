@@ -1,0 +1,133 @@
+#ifndef GERENTEVISAO_H
+#define GERENTEVISAO_H
+
+#include <iostream>
+#include <vector>
+#include <bola.h>
+#include <robo.h>
+#include <comunicacao_visao.h>
+#include <iostream>
+
+#include <QMutex>
+#include <QThread>
+#include <timer.h>
+
+#include <messages_robocup_ssl_detection.pb.h>
+#include <messages_robocup_ssl_geometry.pb.h>
+#include <messages_robocup_ssl_wrapper.pb.h>
+
+#include <mensagem_gerente_visao.pb.h>
+
+#include <barramento.h>
+
+#include <servidorGerenteDados.h>
+
+/// estrutura criada para auxilizar na analise dos pacotes enviados pela SSL vision
+struct RoboSSL{
+    RoboSSL():achado(false){}
+    float x, y, orientation, confidence;
+    bool achado;
+};
+
+enum LadoCampo{
+    ESQUERDO=0, DIREITO=1, DOIS_LADOS=2
+};
+
+
+const int NUM_MAX_ROBOS = 12;
+const int NUM_ROBOS_JOGANDO = 6;
+const LadoCampo CAMPO_VER = DOIS_LADOS;
+
+class GerenteVisao : public QThread
+{
+public:
+    enum FonteDados{
+        SSL_VISION=0, SIMULADOR=1
+    };
+
+    GerenteVisao();
+    GerenteVisao(Barramento *_barramento);
+    ~GerenteVisao();
+
+    bool abreComunicacaoSSLVision();
+    bool fechaComunicacaoSSLVision();
+
+    void setIdRoboEq(int numRobo,int id);
+    void setIdRoboAdv(int numRobo,int id);
+    void setCorEquipe(CorEquipe corTime);
+
+    void analisaPacotes(const SSL_DetectionFrame &frameCam0,const SSL_DetectionFrame &frameCam1);
+
+    void analisaPacotes(const SSL_DetectionFrame &frameCam0);
+
+    void analisaPacotesKalman(const SSL_DetectionFrame &frameCam0,const SSL_DetectionFrame &frameCam1);
+
+    void analisaPacotesKalman(const SSL_DetectionFrame &frameCam0);
+
+    PacoteVisao montaPacoteVisao();
+
+    void predicaoKalman();
+
+    void correcaoKalman();
+
+    void kill();
+
+    void setFonteDados(FonteDados _fonte);
+
+    void setTaxaEnvioIA(int taxaEnvio);
+
+    void setIpIA(string ipIA);
+
+    void setPortaEnviaIA(int porta);
+
+    void setPortaVisao(int portaVisao);
+
+    void setBarramento(Barramento* _barramento);
+
+    string getIpIA();
+
+    int getPortaVisao();
+
+    void setLadoCampo(LadoCampo _ladoCampo);
+
+protected:
+    void run();
+
+    void abrirArqLog();
+    void fechaArquivo();
+
+    void salvaPacotes();
+    FILE * arquivo; // Arquivo com Log de posições do robo
+    Timer timer;
+    double tempoInicial;
+
+private:
+    int portaVisao;
+
+    Bola bola;
+
+    ServidorGerenteDados servidorGD;
+
+    vector <Robo> robos; //Robos da Equipe
+    vector <Robo> robosAdv; //Robos Adversários
+
+    CorEquipe corEquipe;
+    LadoCampo ladoCampoEquipe;
+
+    unsigned int numFrameCam0;
+    unsigned int numFrameCam1;
+    unsigned int numFrameVisao;
+    unsigned int delay;
+
+    ComunicacaoVisao comunicacaoSSL;
+    //    FiltroVisao filtroVisao;
+
+    Barramento *barramento;
+    bool executar;
+
+    QMutex mutex;
+
+    FonteDados fonte;
+};
+
+#endif // GERENTEVISAO_H
