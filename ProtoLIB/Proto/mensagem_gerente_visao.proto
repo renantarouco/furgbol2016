@@ -1,0 +1,20 @@
+message PacoteBola {
+  required float  x          = 1;                       //posicao x da bola
+  required float  y          = 2;                       //posicao y da bola
+  optional float  z          = 3;                       //posicao z da bola
+}
+
+message PacoteRobo {
+  required uint32 id          =  1;                     //id do robo
+  required float  x           =  2;                     //posicao x do robo
+  required float  y           =  3;                     //posicao y do robo
+  required float  orientation =  4;                     //orientacao o robo
+}
+
+message PacoteVisao {
+  required uint32             numeroFrame       = 1;    //numero do frame
+  required double             delay             = 2;    //delay total do sistema de visao
+  required PacoteBola         bola              = 3;    //informacoes da bola
+  repeated PacoteRobo         robosEquipe       = 4;    //informacoes dos robos da equipe
+  repeated PacoteRobo         robosAdversarios  = 5;    //informacoes dos robos adversarios
+}

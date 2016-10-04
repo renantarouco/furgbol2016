@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto
+END
+mensagem_gerente_visao.proto
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/mensagem_gerente_visao.proto
+END
+messages_robocup_ssl_refbox_log.proto
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/messages_robocup_ssl_refbox_log.proto
+END
+grSim_Packet.proto
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/grSim_Packet.proto
+END
+mensagem_ia_simulador2D.proto
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/mensagem_ia_simulador2D.proto
+END
+messages_robocup_ssl_geometry.proto
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/messages_robocup_ssl_geometry.proto
+END
+messages_robocup_ssl_referee.proto
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/messages_robocup_ssl_referee.proto
+END
+compile.sh
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/compile.sh
+END
+mensagem_gerente_dados.proto
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/mensagem_gerente_dados.proto
+END
+messages_robocup_ssl_detection.proto
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/messages_robocup_ssl_detection.proto
+END
+grSim_Replacement.proto
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/grSim_Replacement.proto
+END
+mensagem_controle.proto
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/mensagem_controle.proto
+END
+messages_robocup_ssl_wrapper.proto
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/messages_robocup_ssl_wrapper.proto
+END
+grSim_Commands.proto
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/grSim_Commands.proto
+END
+variaveis_IA.proto
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/variaveis_IA.proto
+END

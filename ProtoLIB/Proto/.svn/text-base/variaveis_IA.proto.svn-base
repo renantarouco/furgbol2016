@@ -1,0 +1,6 @@
+
+message pacote_variaveis_IA{
+	repeated string componente=1;
+	repeated string nome_componente=2;
+	repeated string valor_componente=3;	
+}

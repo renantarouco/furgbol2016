@@ -1,0 +1,48 @@
+import "messages_robocup_ssl_referee.proto";
+import "mensagem_gerente_visao.proto";
+
+message PacotePathPlanning {
+  	repeated float x = 1;                              // vetor de coordenadas x do path planning
+  	repeated float y = 2;                              // vetor de coordenadas y do path planning
+}
+
+message PacoteRoboIA {
+  optional uint32 id          =  1;                     //id do robo
+  optional float  x           =  2;                     //posicao x do robo
+  optional float  y           =  3;                     //posicao y do robo
+  optional float  velX        =  4;			// vel x do robo
+  optional float  velY        =  5;     		// vel y do robo
+  optional float  orientation =  6;                     //orientacao o robo
+  optional string skill       =  7;                     //skill usada pelo robo
+  optional string tatica      =  8;                     //tatica atual usada pelo robo
+  repeated string informacoesSensorias = 9;             //Todas as informacoes detectadas pelo robo.
+  optional float alvoX = 10;                             // posicao x do alvo
+  optional float alvoY = 11;                             // posicao y do alvo
+  optional PacotePathPlanning  pathPlanning = 12;   // Pacote contendo o caminho gerado pelo robo
+  optional float vel_ang = 13;
+  optional float chute_baixo = 14;
+  optional float chute_alto = 15;
+  optional float drible_ligado = 16;
+}
+
+message PacoteIASimulador2D {
+  optional PacoteBola bola = 1;
+  optional SSL_Referee dadosEstados = 2;
+  optional string jogada = 3;
+  repeated string fatosDoMundo = 4;                         // Todas os fatos que sao verdade para um dado isntante
+  repeated PacoteRoboIA robos = 5;
+  repeated PacoteRobo robosAdv = 6;
+  
+  enum CorEquipe{
+    AMARELO = 0;
+    AZUL	= 1;
+  }
+  
+  enum LadoCampo{
+    ESQUERDO=0;
+    DIREITO=1;
+  }
+	
+  required CorEquipe corEquipe = 7;
+  optional LadoCampo ladoCampo = 8;
+}

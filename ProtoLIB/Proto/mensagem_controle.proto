@@ -1,0 +1,16 @@
+message PacoteControle{
+	enum LadoCampo{
+		ESQUERDO = 0;
+		DIREITO	= 1;
+	}
+	required LadoCampo ladoCampo = 1;
+   	
+   	enum CorEquipe{
+		AMARELO = 0;
+		AZUL	= 1;
+	}
+	
+   	required CorEquipe corEquipe = 2;
+   	
+   	required int32 idGoleiro = 3;
+}

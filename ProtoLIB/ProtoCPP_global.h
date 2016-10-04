@@ -1,0 +1,12 @@
+#ifndef PROTOCPP_GLOBAL_H
+#define PROTOCPP_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(PROTOCPP_LIBRARY)
+#  define PROTOCPPSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define PROTOCPPSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PROTOCPP_GLOBAL_H

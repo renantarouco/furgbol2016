@@ -1,0 +1,9 @@
+import "messages_robocup_ssl_referee.proto";
+import "mensagem_gerente_visao.proto";
+import "mensagem_controle.proto";
+
+message PacoteDados{
+  optional PacoteVisao dadosVisao = 1;
+  optional SSL_Referee dadosEstados = 2;
+  optional PacoteControle dadosControle = 3;
+}
