@@ -1,0 +1,12 @@
+build/
+client/testclient
+scoreboard/scoreboard
+*.o
+referee.log
+referee.sav
+referee.pb.cc
+referee.pb.h
+savestate.pb.cc
+savestate.pb.h
+sslrefbox
+tags
