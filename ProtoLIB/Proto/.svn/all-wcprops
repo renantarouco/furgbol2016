@@ -3,24 +3,6 @@ svn:wc:ra_dav:version-url
 V 46
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto
 END
-mensagem_gerente_visao.proto
-K 25
-svn:wc:ra_dav:version-url
-V 75
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/mensagem_gerente_visao.proto
-END
-messages_robocup_ssl_refbox_log.proto
-K 25
-svn:wc:ra_dav:version-url
-V 84
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/messages_robocup_ssl_refbox_log.proto
-END
-grSim_Packet.proto
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/grSim_Packet.proto
-END
 mensagem_ia_simulador2D.proto
 K 25
 svn:wc:ra_dav:version-url
@@ -86,4 +68,22 @@ K 25
 svn:wc:ra_dav:version-url
 V 65
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/variaveis_IA.proto
+END
+mensagem_gerente_visao.proto
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/mensagem_gerente_visao.proto
+END
+messages_robocup_ssl_refbox_log.proto
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/messages_robocup_ssl_refbox_log.proto
+END
+grSim_Packet.proto
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/Proto/grSim_Packet.proto
 END

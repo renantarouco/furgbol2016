@@ -6,7 +6,7 @@ Config::Config()
 
     corEquipe = Amarelo;
     ladoCampo = ESQUERDO;
-    fonte = SSL_VISION;
+    fonte = SIMULADOR;
 
     portSendIA = 8765;
     ipSendIA = "127.0.0.1";

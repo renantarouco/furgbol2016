@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/furgbol/!svn/ver/579/trunk/libs
+END
+install.sh
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/furgbol/!svn/ver/579/trunk/libs/install.sh
+END
+box2d.tar.gz
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/furgbol/!svn/ver/579/trunk/libs/box2d.tar.gz
+END
+ssl-refbox-robocup-2013.tar.gz
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/furgbol/!svn/ver/579/trunk/libs/ssl-refbox-robocup-2013.tar.gz
+END
+vartypes-0.7.tar.gz
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/furgbol/!svn/ver/579/trunk/libs/vartypes-0.7.tar.gz
+END

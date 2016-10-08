@@ -3,41 +3,17 @@ svn:wc:ra_dav:version-url
 V 40
 /svn/furgbol/!svn/ver/586/trunk/ProtoLIB
 END
-mensagem_controle.pb.cc
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_controle.pb.cc
-END
-variaveis_IA.pb.cc
-K 25
-svn:wc:ra_dav:version-url
-V 59
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/variaveis_IA.pb.cc
-END
-mensagem_controle.pb.h
-K 25
-svn:wc:ra_dav:version-url
-V 63
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_controle.pb.h
-END
 grSim_Commands.pb.h
 K 25
 svn:wc:ra_dav:version-url
 V 60
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Commands.pb.h
 END
-ProtoLIB.pro
+grSim_Packet.pb.cc
 K 25
 svn:wc:ra_dav:version-url
-V 53
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/ProtoLIB.pro
-END
-mensagem_gerente_visao.pb.cc
-K 25
-svn:wc:ra_dav:version-url
-V 69
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_gerente_visao.pb.cc
+V 59
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Packet.pb.cc
 END
 grSim_Packet.pb.h
 K 25
@@ -45,29 +21,23 @@ svn:wc:ra_dav:version-url
 V 58
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Packet.pb.h
 END
-mensagem_ia_simulador2D.pb.h
+messages_robocup_ssl_referee.pb.cc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_referee.pb.cc
+END
+mensagem_gerente_dados.pb.cc
 K 25
 svn:wc:ra_dav:version-url
 V 69
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_ia_simulador2D.pb.h
-END
-messages_robocup_ssl_detection.pb.cc
-K 25
-svn:wc:ra_dav:version-url
-V 77
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_detection.pb.cc
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_gerente_dados.pb.cc
 END
 messages_robocup_ssl_referee.pb.h
 K 25
 svn:wc:ra_dav:version-url
 V 74
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_referee.pb.h
-END
-messages_robocup_ssl_wrapper.pb.cc
-K 25
-svn:wc:ra_dav:version-url
-V 75
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_wrapper.pb.cc
 END
 messages_robocup_ssl_detection.pb.h
 K 25
@@ -99,17 +69,11 @@ svn:wc:ra_dav:version-url
 V 58
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/ProtoCPP_global.h
 END
-messages_robocup_ssl_refbox_log.pb.h
+mensagem_ia_gerente_dados.pb.h
 K 25
 svn:wc:ra_dav:version-url
-V 77
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_refbox_log.pb.h
-END
-Makefile
-K 25
-svn:wc:ra_dav:version-url
-V 49
-/svn/furgbol/!svn/ver/586/trunk/ProtoLIB/Makefile
+V 71
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_ia_gerente_dados.pb.h
 END
 messages_robocup_ssl_geometry.pb.cc
 K 25
@@ -117,17 +81,23 @@ svn:wc:ra_dav:version-url
 V 76
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_geometry.pb.cc
 END
-grSim_Commands.pb.cc
+messages_robocup_ssl_geometry.pb.h
 K 25
 svn:wc:ra_dav:version-url
-V 61
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Commands.pb.cc
+V 75
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_geometry.pb.h
 END
-grSim_Replacement.pb.h
+variaveis_IA.pb.cc
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/variaveis_IA.pb.cc
+END
+mensagem_controle.pb.h
 K 25
 svn:wc:ra_dav:version-url
 V 63
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Replacement.pb.h
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_controle.pb.h
 END
 ProtoLIB.pro.user.e71e98a
 K 25
@@ -141,17 +111,23 @@ svn:wc:ra_dav:version-url
 V 58
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/variaveis_IA.pb.h
 END
+ProtoLIB.pro
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/ProtoLIB.pro
+END
+mensagem_gerente_visao.pb.cc
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_gerente_visao.pb.cc
+END
 mensagem_gerente_visao.pb.h
 K 25
 svn:wc:ra_dav:version-url
 V 68
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_gerente_visao.pb.h
-END
-grSim_Packet.pb.cc
-K 25
-svn:wc:ra_dav:version-url
-V 59
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Packet.pb.cc
 END
 mensagem_ia_simulador2D.pb.cc
 K 25
@@ -159,17 +135,17 @@ svn:wc:ra_dav:version-url
 V 70
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_ia_simulador2D.pb.cc
 END
-messages_robocup_ssl_referee.pb.cc
-K 25
-svn:wc:ra_dav:version-url
-V 75
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_referee.pb.cc
-END
-mensagem_gerente_dados.pb.cc
+mensagem_ia_simulador2D.pb.h
 K 25
 svn:wc:ra_dav:version-url
 V 69
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_gerente_dados.pb.cc
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_ia_simulador2D.pb.h
+END
+messages_robocup_ssl_detection.pb.cc
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_detection.pb.cc
 END
 mensagem_gerente_dados.pb.h
 K 25
@@ -177,27 +153,51 @@ svn:wc:ra_dav:version-url
 V 68
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_gerente_dados.pb.h
 END
+messages_robocup_ssl_wrapper.pb.cc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_wrapper.pb.cc
+END
 ProtoLIB.pro.user
 K 25
 svn:wc:ra_dav:version-url
 V 58
 /svn/furgbol/!svn/ver/582/trunk/ProtoLIB/ProtoLIB.pro.user
 END
-mensagem_ia_gerente_dados.pb.h
+messages_robocup_ssl_refbox_log.pb.h
 K 25
 svn:wc:ra_dav:version-url
-V 71
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_ia_gerente_dados.pb.h
+V 77
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_refbox_log.pb.h
 END
-messages_robocup_ssl_geometry.pb.h
+Makefile
 K 25
 svn:wc:ra_dav:version-url
-V 75
-/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/messages_robocup_ssl_geometry.pb.h
+V 49
+/svn/furgbol/!svn/ver/586/trunk/ProtoLIB/Makefile
 END
 grSim_Replacement.pb.cc
 K 25
 svn:wc:ra_dav:version-url
 V 64
 /svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Replacement.pb.cc
+END
+mensagem_controle.pb.cc
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/mensagem_controle.pb.cc
+END
+grSim_Commands.pb.cc
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Commands.pb.cc
+END
+grSim_Replacement.pb.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/furgbol/!svn/ver/579/trunk/ProtoLIB/grSim_Replacement.pb.h
 END
