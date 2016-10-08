@@ -13,10 +13,10 @@ Config::Config()
     hostAddressIA = QHostAddress(ipSendIA);
 
     portReceiveVision = 10020;//10018
-    ipReceiveVision = "127.0.0.1";
+    ipReceiveVision = "192.168.0.255"; //"224.5.23.1";
     groupVision = QHostAddress(ipReceiveVision);
 
     portReceiveReferee = 10003;
-    ipReceiveReferee = "224.5.23.1";
+    ipReceiveReferee = "192.168.0.255"; //"224.5.23.1";
     groupReferee = QHostAddress(ipReceiveReferee);
 }

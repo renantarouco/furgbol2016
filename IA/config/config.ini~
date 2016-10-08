@@ -4,7 +4,7 @@ path_playbook="../IA/GDC/PlayBook/"
 
 [COMUNICACAO]
 # tipo robo -  0 para robo real , use 1 para simulador 3D, use 2 para simulador 2D
-tipo_robos=0
+tipo_robos=1
 usar_juiz=true
 envia_monitorador=false
 num_pacotes_serial=100 
